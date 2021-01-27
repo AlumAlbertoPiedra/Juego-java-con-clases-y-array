@@ -3,7 +3,6 @@ package com.venegaspiedraalberto.proyecto_breakout;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -28,12 +27,13 @@ public class App extends Application {
     int SCENE_TAM_Y = 600;
     int ANCHURA_PALA = 70;
     int ALTURA_PALA = 10;
-    int ballCenterY = 30;
-    int ballCurrentSpeedY =6;
-    int ballCenterX = 10;
-    int ballCurrentSpeedX =6;
+    int ballCenterY = 350;
+    int ballCurrentSpeedY =3;
+    int ballCenterX = 400;
+    int ballCurrentSpeedX =3;
     int stickCurrentSpeed = 0;
     int stickPosX =(SCENE_TAM_X - ANCHURA_PALA) /2;
+    
 
     @Override
     public void start(Stage stage) {
@@ -49,10 +49,10 @@ public class App extends Application {
         Circle circlePierna1 = new Circle (5,70,5);
         
         //Creación de obstaculos
-        Rectangle rectangleObstaculo1 = new Rectangle(5,250,193,50);
-        Rectangle rectangleObstaculo2 = new Rectangle(203,250,193,50);
-        Rectangle rectangleObstaculo3 = new Rectangle(403,250,193,50);
-        Rectangle rectangleObstaculo4 = new Rectangle(603,250,193,50);
+        Rectangle rectangleObstaculo1 = new Rectangle(5,200,193,50);
+        Rectangle rectangleObstaculo2 = new Rectangle(203,200,193,50);
+        Rectangle rectangleObstaculo3 = new Rectangle(403,200,193,50);
+        Rectangle rectangleObstaculo4 = new Rectangle(603,200,193,50);
        
         //Background del juego
         Image img = new Image(getClass().getResourceAsStream("/images/bg_1_1.png"));
@@ -118,22 +118,64 @@ public class App extends Application {
                     ballCenterX += ballCurrentSpeedX;
                     stickPosX += stickCurrentSpeed;
                     rectPala.setX(stickPosX);
-                    if(ballCenterX>=SCENE_TAM_X) {
-                        ballCurrentSpeedX = -6;
+                    if (stickPosX <0){
+                        stickPosX = 0;
+                    }else {
+                        if(stickPosX > (SCENE_TAM_X- ANCHURA_PALA) ){
+                            stickPosX = (SCENE_TAM_X- ANCHURA_PALA);
+                        }
+                    }                    
+                    if(ballCenterX>= SCENE_TAM_X) {
+                        ballCurrentSpeedX = -5;
                     }
                     if(ballCenterX<=0) {
-                        ballCurrentSpeedX = 6;
+                        ballCurrentSpeedX = 5;
                     }
                     if(ballCenterY>=SCENE_TAM_Y) {
-                        ballCurrentSpeedY = -6;
+                        ballCurrentSpeedX = 0;
+                        ballCurrentSpeedY = 0;
+                        ballCenterY = 400;
+                        ballCenterX = 400;
                     }
                     if(ballCenterY<=0) {
-                        ballCurrentSpeedY = 6;
+                        ballCurrentSpeedY = 5;
                     }
                     Shape shapeColision = Shape.intersect(circleBall, rectPala);
                     boolean colisionVacia = shapeColision.getBoundsInLocal().isEmpty();
                     if(colisionVacia == false) {
-                        ballCurrentSpeedY = -3;
+                        ballCurrentSpeedY = -4;
+                    }
+                    Shape shapeColision1 = Shape.intersect(circleBall, rectangleObstaculo1);
+                    boolean colisionVacia1 = shapeColision1.getBoundsInLocal().isEmpty();
+                    if(colisionVacia1 == false) {
+                        ballCurrentSpeedY = 4;
+                        root.getChildren().remove(rectangleObstaculo1);
+                        rectangleObstaculo1.setLayoutX(-305);
+                        rectangleObstaculo1.setLayoutY(-305);
+                    }
+                    Shape shapeColision2 = Shape.intersect(circleBall, rectangleObstaculo2);
+                    boolean colisionVacia2 = shapeColision2.getBoundsInLocal().isEmpty();
+                    if(colisionVacia2 == false) {
+                        ballCurrentSpeedY = 4;
+                        root.getChildren().remove(rectangleObstaculo2);
+                        rectangleObstaculo2.setLayoutX(-510);
+                        rectangleObstaculo2.setLayoutY(-510);
+                    }
+                    Shape shapeColision3 = Shape.intersect(circleBall, rectangleObstaculo3);
+                    boolean colisionVacia3= shapeColision3.getBoundsInLocal().isEmpty();
+                    if(colisionVacia3 == false) {
+                        ballCurrentSpeedY = 4;
+                        root.getChildren().remove(rectangleObstaculo3);
+                        rectangleObstaculo3.setLayoutX(-715);
+                        rectangleObstaculo3.setLayoutY(-715);
+                    }
+                    Shape shapeColision4 = Shape.intersect(circleBall, rectangleObstaculo4);
+                    boolean colisionVacia4 = shapeColision4.getBoundsInLocal().isEmpty();
+                    if(colisionVacia4 == false) {
+                        ballCurrentSpeedY = 3;
+                        root.getChildren().remove(rectangleObstaculo4);
+                        rectangleObstaculo4.setLayoutX(-920);
+                        rectangleObstaculo4.setLayoutY(-920);
                     }
                     calculateBallSpeed(getStickCollisionZone(circleBall, rectPala));
                 })
@@ -145,10 +187,10 @@ public class App extends Application {
         scene.setOnKeyPressed((KeyEvent event) -> {
             switch (event.getCode()) {
                 case LEFT:
-                    stickCurrentSpeed = -6;
+                    stickCurrentSpeed = -8;
                     break;
                 case RIGHT:
-                    stickCurrentSpeed = 6;
+                    stickCurrentSpeed = 8;
                     break;
             }
         });
@@ -163,12 +205,12 @@ public class App extends Application {
         if (Shape.intersect(ball, stick).getBoundsInLocal().isEmpty()){
             return 0;
         }else {
-            double offsetBallStick = ball.getCenterY()- stick.getY();
-            if (offsetBallStick < stick.getHeight() -0.5) {
+            double offsetBallStick = ball.getCenterX()- stick.getX();
+            if (offsetBallStick < stick.getWidth() *0.1) {
                 return 1;
-            } else if (offsetBallStick <stick.getHeight() / 2) {
+            } else if (offsetBallStick <stick.getWidth() / 2) {
                 return 2;
-            } else if (offsetBallStick <= stick.getHeight() /2 && offsetBallStick < stick.getHeight() * 0.9) {
+            } else if (offsetBallStick <= stick.getWidth() /2 && offsetBallStick < stick.getWidth() * 0.9) {
                 return 3;
             } else {
                 return 4;
@@ -185,18 +227,26 @@ public class App extends Application {
                 ballCurrentSpeedY = -6;
                 break;
             case 2:
-                ballCurrentSpeedX = -3;
-                ballCurrentSpeedY = -3;
+                ballCurrentSpeedX = -4;
+                ballCurrentSpeedY = -6;
                 break;
             case 3:
-                ballCurrentSpeedX = 3;
-                ballCurrentSpeedY = -3;
+                ballCurrentSpeedX = 4;
+                ballCurrentSpeedY = -6;
                 break;
             case 4:
                 ballCurrentSpeedX = 6;
                 ballCurrentSpeedY = -6;
                 break;                  
         }
+    }
+    
+    private void resetGame() {
+        ballCurrentSpeedX = 0;
+        ballCurrentSpeedY = 0;
+        ballCenterY = 400;
+        ballCenterX = 400;
+         
     }
 
     public static void main(String[] args) {
