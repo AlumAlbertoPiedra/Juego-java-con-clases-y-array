@@ -33,9 +33,11 @@ public class App extends Application {
     int ballCurrentSpeedX = 3;
     int stickCurrentSpeed = 0;
     int stickPosX = (SCENE_TAM_X - ANCHURA_PALA) / 2;
+    int velocidadJefe = 5;
 
     @Override
     public void start(Stage stage) {
+        
 
         //Creación de personaje
         Rectangle rectangleCuerpoInferior = new Rectangle(0, 50, 50, 70);
@@ -51,6 +53,11 @@ public class App extends Application {
         Polygon polygonCuerno2 = new Polygon(5.0, 5.0, 13.0, 5.0, 5.0, 12.0);
         polygonCuerno2.setLayoutX(3);
         polygonCuerno2.setLayoutY(-4);
+        Polygon polygonOjo = new Polygon(5.0, 10.0, 15.0, 10.0, 10.0, 5.0);
+        polygonOjo.setLayoutX(14);
+        polygonOjo.setLayoutY(2);
+        Rectangle zonaContacto1 = new Rectangle(-20,0,100,120);
+        zonaContacto1.setVisible(false);
 
         //Creación de obstaculos
         Rectangle rectangleObstaculo1 = new Rectangle(5, 200, 193, 50);
@@ -73,6 +80,7 @@ public class App extends Application {
         polygonCuerno1.setRotate(270);
         polygonCuerno2.setFill(Color.GREY);
         polygonCuerno2.setRotate(180);
+        polygonOjo.setFill(Color.RED);
 
         //Color Obstaculos
         rectangleObstaculo1.setFill(Color.BLUE);
@@ -90,6 +98,8 @@ public class App extends Application {
         groupPerson.getChildren().add(circleCabeza);
         groupPerson.getChildren().add(polygonCuerno1);
         groupPerson.getChildren().add(polygonCuerno2);
+        groupPerson.getChildren().add(polygonOjo);
+        groupPerson.getChildren().add(zonaContacto1);
 
         groupPerson.setLayoutX(50);
         groupPerson.setLayoutY(50);
@@ -102,6 +112,7 @@ public class App extends Application {
         root.getChildren().add(rectangleObstaculo2);
         root.getChildren().add(rectangleObstaculo3);
         root.getChildren().add(rectangleObstaculo4);
+        stage.setResizable(false);
         stage.setTitle("BreakoutFX");
         stage.setScene(scene);
         stage.show();
@@ -123,6 +134,13 @@ public class App extends Application {
                     ballCenterX += ballCurrentSpeedX;
                     stickPosX += stickCurrentSpeed;
                     rectPala.setX(stickPosX);
+                    groupPerson.setLayoutX(groupPerson.getLayoutX()+ velocidadJefe);
+                    if (groupPerson.getLayoutX() > (SCENE_TAM_X -70)) {
+                        velocidadJefe= -velocidadJefe;
+                    }
+                    if (groupPerson.getLayoutX() < 50 ) {
+                        velocidadJefe= -velocidadJefe;
+                    }
                     if (stickPosX < 0) {
                         stickPosX = 0;
                     } else {
@@ -182,6 +200,13 @@ public class App extends Application {
                         rectangleObstaculo4.setLayoutX(-920);
                         rectangleObstaculo4.setLayoutY(-920);
                     }
+                    
+                    Shape shapeColision5 = Shape.intersect(circleBall, zonaContacto1);
+                    boolean colisionVacia5 = shapeColision5.getBoundsInLocal().isEmpty();
+                    if (colisionVacia5 == false) {
+                        ballCurrentSpeedY = 6;
+                    }
+                    
                     calculateBallSpeed(getStickCollisionZone(circleBall, rectPala));
                 })
         );
