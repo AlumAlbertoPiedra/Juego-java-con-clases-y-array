@@ -34,10 +34,16 @@ public class App extends Application {
     int stickCurrentSpeed = 0;
     int stickPosX = (SCENE_TAM_X - ANCHURA_PALA) / 2;
     int velocidadJefe = 5;
+    int vida = 1;
+   
+    Rectangle rectangleObstaculo1 = new Rectangle(5, 200, 193, 50);
+    Rectangle rectangleObstaculo2 = new Rectangle(203, 200, 193, 50);
+    Rectangle rectangleObstaculo3 = new Rectangle(403, 200, 193, 50);
+    Rectangle rectangleObstaculo4 = new Rectangle(603, 200, 193, 50);
 
     @Override
     public void start(Stage stage) {
-        
+       
 
         //Creación de personaje
         Rectangle rectangleCuerpoInferior = new Rectangle(0, 50, 50, 70);
@@ -60,10 +66,6 @@ public class App extends Application {
         zonaContacto1.setVisible(false);
 
         //Creación de obstaculos
-        Rectangle rectangleObstaculo1 = new Rectangle(5, 200, 193, 50);
-        Rectangle rectangleObstaculo2 = new Rectangle(203, 200, 193, 50);
-        Rectangle rectangleObstaculo3 = new Rectangle(403, 200, 193, 50);
-        Rectangle rectangleObstaculo4 = new Rectangle(603, 200, 193, 50);
 
         //Background del juego
         Image img = new Image(getClass().getResourceAsStream("/images/bg_1_1.png"));
@@ -84,9 +86,9 @@ public class App extends Application {
 
         //Color Obstaculos
         rectangleObstaculo1.setFill(Color.BLUE);
-        rectangleObstaculo2.setFill(Color.BLUE);
-        rectangleObstaculo3.setFill(Color.BLUE);
-        rectangleObstaculo4.setFill(Color.BLUE);
+        rectangleObstaculo2.setFill(Color.RED);
+        rectangleObstaculo3.setFill(Color.YELLOW);
+        rectangleObstaculo4.setFill(Color.GREEN);
 
         //Unión partes del personaje
         Group groupPerson = new Group();
@@ -159,6 +161,7 @@ public class App extends Application {
                         ballCurrentSpeedY = 0;
                         ballCenterY = 400;
                         ballCenterX = 400;
+                        vida = 0;
                     }
                     if (ballCenterY <= 0) {
                         ballCurrentSpeedY = 5;
@@ -171,42 +174,39 @@ public class App extends Application {
                     Shape shapeColision1 = Shape.intersect(circleBall, rectangleObstaculo1);
                     boolean colisionVacia1 = shapeColision1.getBoundsInLocal().isEmpty();
                     if (colisionVacia1 == false) {
-                        ballCurrentSpeedY = 4;
-                        root.getChildren().remove(rectangleObstaculo1);
+                        ballCurrentSpeedY = -ballCurrentSpeedY;
                         rectangleObstaculo1.setLayoutX(-305);
-                        rectangleObstaculo1.setLayoutY(-305);
+                        rectangleObstaculo1.setLayoutY(-200);
                     }
                     Shape shapeColision2 = Shape.intersect(circleBall, rectangleObstaculo2);
                     boolean colisionVacia2 = shapeColision2.getBoundsInLocal().isEmpty();
                     if (colisionVacia2 == false) {
-                        ballCurrentSpeedY = 4;
-                        root.getChildren().remove(rectangleObstaculo2);
-                        rectangleObstaculo2.setLayoutX(-510);
-                        rectangleObstaculo2.setLayoutY(-510);
+                        ballCurrentSpeedY = -ballCurrentSpeedY;
+                        rectangleObstaculo2.setLayoutX(-603);
+                        rectangleObstaculo2.setLayoutY(-603);
                     }
                     Shape shapeColision3 = Shape.intersect(circleBall, rectangleObstaculo3);
                     boolean colisionVacia3 = shapeColision3.getBoundsInLocal().isEmpty();
                     if (colisionVacia3 == false) {
-                        ballCurrentSpeedY = 4;
-                        root.getChildren().remove(rectangleObstaculo3);
-                        rectangleObstaculo3.setLayoutX(-715);
-                        rectangleObstaculo3.setLayoutY(-715);
+                        ballCurrentSpeedY = -ballCurrentSpeedY;
+                        rectangleObstaculo3.setLayoutX(-803);
+                        rectangleObstaculo3.setLayoutY(-803);
                     }
                     Shape shapeColision4 = Shape.intersect(circleBall, rectangleObstaculo4);
                     boolean colisionVacia4 = shapeColision4.getBoundsInLocal().isEmpty();
                     if (colisionVacia4 == false) {
-                        ballCurrentSpeedY = 3;
-                        root.getChildren().remove(rectangleObstaculo4);
-                        rectangleObstaculo4.setLayoutX(-920);
-                        rectangleObstaculo4.setLayoutY(-920);
+                        ballCurrentSpeedY = -ballCurrentSpeedY;
+                        //root.getChildren().remove(rectangleObstaculo4);
+                        rectangleObstaculo4.setLayoutX(-1003);
+                        rectangleObstaculo4.setLayoutY(-1003);
                     }
-                    
+                   
                     Shape shapeColision5 = Shape.intersect(circleBall, zonaContacto1);
                     boolean colisionVacia5 = shapeColision5.getBoundsInLocal().isEmpty();
                     if (colisionVacia5 == false) {
                         ballCurrentSpeedY = 6;
                     }
-                    
+                   
                     calculateBallSpeed(getStickCollisionZone(circleBall, rectPala));
                 })
         );
@@ -222,6 +222,10 @@ public class App extends Application {
                 case RIGHT:
                     stickCurrentSpeed = 8;
                     break;
+                case ENTER:
+                    if (vida == 0) {
+                        resetGame();
+                    }
             }
         });
 
@@ -271,11 +275,18 @@ public class App extends Application {
     }
 
     private void resetGame() {
-        ballCurrentSpeedX = 0;
-        ballCurrentSpeedY = 0;
-        ballCenterY = 400;
-        ballCenterX = 400;
-
+        ballCurrentSpeedX = 3;
+        ballCurrentSpeedY = 3;
+        rectangleObstaculo1.setLayoutX(0);
+        rectangleObstaculo1.setLayoutY(0);
+        rectangleObstaculo2.setLayoutX(0);
+        rectangleObstaculo2.setLayoutY(0);
+        rectangleObstaculo3.setLayoutX(0);
+        rectangleObstaculo3.setLayoutY(0);
+        rectangleObstaculo4.setLayoutX(0);
+        rectangleObstaculo4.setLayoutY(0);
+        vida = 1;
+       
     }
 
     public static void main(String[] args) {
