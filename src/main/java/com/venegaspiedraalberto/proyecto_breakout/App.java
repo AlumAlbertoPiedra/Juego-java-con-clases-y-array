@@ -274,7 +274,7 @@ public class App extends Application {
         }
     }
 
-    private void resetGame() {
+    /*private void resetGame() {
         ballCurrentSpeedX = 3;
         ballCurrentSpeedY = 3;
         rectangleObstaculo1.setLayoutX(0);
@@ -287,7 +287,7 @@ public class App extends Application {
         rectangleObstaculo4.setLayoutY(0);
         vida = 1;
        
-    }
+    }*/
 
     public static void main(String[] args) {
         launch();
