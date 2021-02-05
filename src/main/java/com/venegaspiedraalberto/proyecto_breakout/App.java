@@ -35,11 +35,14 @@ public class App extends Application {
     int stickPosX = (SCENE_TAM_X - ANCHURA_PALA) / 2;
     int velocidadJefe = 5;
     int vida = 1;
+    int vidaJefe = 3;
    
     Rectangle rectangleObstaculo1 = new Rectangle(5, 200, 193, 50);
     Rectangle rectangleObstaculo2 = new Rectangle(203, 200, 193, 50);
     Rectangle rectangleObstaculo3 = new Rectangle(403, 200, 193, 50);
     Rectangle rectangleObstaculo4 = new Rectangle(603, 200, 193, 50);
+    
+    Group groupPerson= new Group();;
 
     @Override
     public void start(Stage stage) {
@@ -91,7 +94,7 @@ public class App extends Application {
         rectangleObstaculo4.setFill(Color.GREEN);
 
         //Unión partes del personaje
-        Group groupPerson = new Group();
+        
         groupPerson.getChildren().add(rectangleCuerpoInferior);
         groupPerson.getChildren().add(rectangleCuerpoSuperior);
         groupPerson.getChildren().add(rectangleMano1);
@@ -129,7 +132,7 @@ public class App extends Application {
 
         Timeline animationBall = new Timeline(
                 new KeyFrame(Duration.seconds(0.017), (var ae) -> {
-                    System.out.println(ballCenterY);
+                    System.out.println(vidaJefe);
                     circleBall.setCenterY(ballCenterY);
                     ballCenterY += ballCurrentSpeedY;
                     circleBall.setCenterX(ballCenterX);
@@ -151,10 +154,10 @@ public class App extends Application {
                         }
                     }
                     if (ballCenterX >= SCENE_TAM_X) {
-                        ballCurrentSpeedX = -5;
+                        ballCurrentSpeedX = -7;
                     }
                     if (ballCenterX <= 0) {
-                        ballCurrentSpeedX = 5;
+                        ballCurrentSpeedX = 7;
                     }
                     if (ballCenterY >= SCENE_TAM_Y) {
                         ballCurrentSpeedX = 0;
@@ -164,7 +167,7 @@ public class App extends Application {
                         vida = 0;
                     }
                     if (ballCenterY <= 0) {
-                        ballCurrentSpeedY = 5;
+                        ballCurrentSpeedY = 7;
                     }
                     Shape shapeColision = Shape.intersect(circleBall, rectPala);
                     boolean colisionVacia = shapeColision.getBoundsInLocal().isEmpty();
@@ -183,14 +186,14 @@ public class App extends Application {
                     if (colisionVacia2 == false) {
                         ballCurrentSpeedY = -ballCurrentSpeedY;
                         rectangleObstaculo2.setLayoutX(-603);
-                        rectangleObstaculo2.setLayoutY(-603);
+                        rectangleObstaculo2.setLayoutY(-200);
                     }
                     Shape shapeColision3 = Shape.intersect(circleBall, rectangleObstaculo3);
                     boolean colisionVacia3 = shapeColision3.getBoundsInLocal().isEmpty();
                     if (colisionVacia3 == false) {
                         ballCurrentSpeedY = -ballCurrentSpeedY;
                         rectangleObstaculo3.setLayoutX(-803);
-                        rectangleObstaculo3.setLayoutY(-803);
+                        rectangleObstaculo3.setLayoutY(-200);
                     }
                     Shape shapeColision4 = Shape.intersect(circleBall, rectangleObstaculo4);
                     boolean colisionVacia4 = shapeColision4.getBoundsInLocal().isEmpty();
@@ -198,13 +201,26 @@ public class App extends Application {
                         ballCurrentSpeedY = -ballCurrentSpeedY;
                         //root.getChildren().remove(rectangleObstaculo4);
                         rectangleObstaculo4.setLayoutX(-1003);
-                        rectangleObstaculo4.setLayoutY(-1003);
+                        rectangleObstaculo4.setLayoutY(-200);
                     }
                    
                     Shape shapeColision5 = Shape.intersect(circleBall, zonaContacto1);
                     boolean colisionVacia5 = shapeColision5.getBoundsInLocal().isEmpty();
                     if (colisionVacia5 == false) {
-                        ballCurrentSpeedY = 6;
+                        ballCurrentSpeedY = -ballCurrentSpeedY;
+                        /*ballCenterY = (ballCenterY + (ballCurrentSpeedY*2));
+                        circleBall.setCenterY(ballCenterY);*/
+                        if (groupPerson.getLayoutX()>= 690){
+                            groupPerson.setLayoutX(groupPerson.getLayoutX() -110);
+                        } else if (groupPerson.getLayoutY() <= 110){
+                            groupPerson.setLayoutX(groupPerson.getLayoutX() +110);
+                        }
+                        
+                        
+                        vidaJefe -= 1;
+                        if (vidaJefe == 0){
+                          winGame();  
+                        }
                     }
                    
                     calculateBallSpeed(getStickCollisionZone(circleBall, rectPala));
@@ -256,25 +272,25 @@ public class App extends Application {
             case 0:
                 break;
             case 1:
-                ballCurrentSpeedX = -6;
-                ballCurrentSpeedY = -6;
+                ballCurrentSpeedX = -7;
+                ballCurrentSpeedY = -7;
                 break;
             case 2:
-                ballCurrentSpeedX = -4;
-                ballCurrentSpeedY = -6;
+                ballCurrentSpeedX = -5;
+                ballCurrentSpeedY = -7;
                 break;
             case 3:
-                ballCurrentSpeedX = 4;
-                ballCurrentSpeedY = -6;
+                ballCurrentSpeedX = 5;
+                ballCurrentSpeedY = -7;
                 break;
             case 4:
-                ballCurrentSpeedX = 6;
-                ballCurrentSpeedY = -6;
+                ballCurrentSpeedX = 7;
+                ballCurrentSpeedY = -7;
                 break;
         }
     }
 
-    /*private void resetGame() {
+    private void resetGame() {
         ballCurrentSpeedX = 3;
         ballCurrentSpeedY = 3;
         rectangleObstaculo1.setLayoutX(0);
@@ -286,8 +302,28 @@ public class App extends Application {
         rectangleObstaculo4.setLayoutX(0);
         rectangleObstaculo4.setLayoutY(0);
         vida = 1;
+        vidaJefe = 3;
+        groupPerson.setLayoutX(50);
+        groupPerson.setLayoutY(50);
        
-    }*/
+    }
+    
+    private void winGame() {
+        groupPerson.setLayoutX(-1200);
+        groupPerson.setLayoutY(-1200);
+        ballCurrentSpeedX = 0;
+        ballCurrentSpeedY = 0;
+        ballCenterY = 400;
+        ballCenterX = 400;
+        rectangleObstaculo4.setLayoutX(-1003);
+        rectangleObstaculo4.setLayoutY(-200);
+        rectangleObstaculo3.setLayoutX(-803);
+        rectangleObstaculo3.setLayoutY(-200);
+        rectangleObstaculo2.setLayoutX(-603);
+        rectangleObstaculo2.setLayoutY(-200);
+        rectangleObstaculo1.setLayoutX(-305);
+        rectangleObstaculo1.setLayoutY(-200);
+    }
 
     public static void main(String[] args) {
         launch();
