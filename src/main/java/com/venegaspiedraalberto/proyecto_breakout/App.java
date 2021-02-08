@@ -3,18 +3,22 @@ package com.venegaspiedraalberto.proyecto_breakout;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import static javafx.scene.input.KeyCode.LEFT;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -36,6 +40,9 @@ public class App extends Application {
     int velocidadJefe = 5;
     int vida = 1;
     int vidaJefe = 3;
+    int score;
+    int highScore;
+    int TEXT_SIZE = 24;
    
     Rectangle rectangleObstaculo1 = new Rectangle(5, 200, 193, 50);
     Rectangle rectangleObstaculo2 = new Rectangle(203, 200, 193, 50);
@@ -109,6 +116,7 @@ public class App extends Application {
         groupPerson.setLayoutX(50);
         groupPerson.setLayoutY(50);
 
+        
         Pane root = new Pane();
         Scene scene = new Scene(root, SCENE_TAM_X, SCENE_TAM_Y, Color.LIGHTSLATEGREY);
         root.getChildren().add(imgView);
@@ -121,6 +129,45 @@ public class App extends Application {
         stage.setTitle("BreakoutFX");
         stage.setScene(scene);
         stage.show();
+        
+        HBox paneScores = new HBox();
+        paneScores.setTranslateY(20);
+        paneScores.setMinWidth(SCENE_TAM_X);
+        paneScores.setAlignment(Pos.CENTER);
+        paneScores.setSpacing(100);
+        root.getChildren().add(paneScores);
+        
+        HBox paneCurrentScore = new HBox();
+        paneCurrentScore.setSpacing(10);
+        paneScores.getChildren().add(paneCurrentScore);
+        
+        HBox paneHighScore = new HBox();
+        paneHighScore.setSpacing(10);
+        paneScores.getChildren().add(paneHighScore);
+        
+        Text textTitleScore = new Text("Score");
+        textTitleScore.setFont(Font.font(TEXT_SIZE));
+        textTitleScore.setFill(Color.WHITE);
+        
+        Text textScore = new Text("0");
+        textScore.setFont(Font.font(TEXT_SIZE));
+        textScore.setFill(Color.WHITE);
+        
+        Text textTitleHighScore = new Text("Max.Score:");
+        textTitleHighScore.setFont(Font.font(TEXT_SIZE));
+        textTitleHighScore.setFill(Color.WHITE);
+        
+        Text textHighScore = new Text ("0");
+        textHighScore.setFont (Font.font(TEXT_SIZE));
+        textHighScore.setFill(Color.WHITE);
+        
+        paneCurrentScore.getChildren().add(textTitleScore);
+        paneCurrentScore.getChildren().add(textScore);
+        paneHighScore.getChildren().add(textTitleHighScore);
+        paneHighScore.getChildren().add(textHighScore);
+        
+      
+        
 
         //Creación de la pala del jugador
         Rectangle rectPala = new Rectangle(SCENE_TAM_X / 2, SCENE_TAM_Y - 70, ANCHURA_PALA, ALTURA_PALA);
@@ -165,6 +212,12 @@ public class App extends Application {
                         ballCenterY = 400;
                         ballCenterX = 400;
                         vida = 0;
+                        if(score > highScore){
+                            highScore= score;
+                            textHighScore.setText(String.valueOf(highScore));
+                        }
+                        score = 0;
+                        textScore.setText(String.valueOf(score));
                     }
                     if (ballCenterY <= 0) {
                         ballCurrentSpeedY = 7;
@@ -180,6 +233,8 @@ public class App extends Application {
                         ballCurrentSpeedY = -ballCurrentSpeedY;
                         rectangleObstaculo1.setLayoutX(-305);
                         rectangleObstaculo1.setLayoutY(-200);
+                        score += 10;
+                        textScore.setText(String.valueOf(score));
                     }
                     Shape shapeColision2 = Shape.intersect(circleBall, rectangleObstaculo2);
                     boolean colisionVacia2 = shapeColision2.getBoundsInLocal().isEmpty();
@@ -187,6 +242,8 @@ public class App extends Application {
                         ballCurrentSpeedY = -ballCurrentSpeedY;
                         rectangleObstaculo2.setLayoutX(-603);
                         rectangleObstaculo2.setLayoutY(-200);
+                        score += 10;
+                        textScore.setText(String.valueOf(score));
                     }
                     Shape shapeColision3 = Shape.intersect(circleBall, rectangleObstaculo3);
                     boolean colisionVacia3 = shapeColision3.getBoundsInLocal().isEmpty();
@@ -194,6 +251,8 @@ public class App extends Application {
                         ballCurrentSpeedY = -ballCurrentSpeedY;
                         rectangleObstaculo3.setLayoutX(-803);
                         rectangleObstaculo3.setLayoutY(-200);
+                        score += 10;
+                        textScore.setText(String.valueOf(score));
                     }
                     Shape shapeColision4 = Shape.intersect(circleBall, rectangleObstaculo4);
                     boolean colisionVacia4 = shapeColision4.getBoundsInLocal().isEmpty();
@@ -202,6 +261,8 @@ public class App extends Application {
                         //root.getChildren().remove(rectangleObstaculo4);
                         rectangleObstaculo4.setLayoutX(-1003);
                         rectangleObstaculo4.setLayoutY(-200);
+                        score += 10;
+                        textScore.setText(String.valueOf(score));
                     }
                    
                     Shape shapeColision5 = Shape.intersect(circleBall, zonaContacto1);
@@ -215,11 +276,12 @@ public class App extends Application {
                         } else if (groupPerson.getLayoutY() <= 110){
                             groupPerson.setLayoutX(groupPerson.getLayoutX() +110);
                         }
-                        
-                        
+                        score += 50;
+                        textScore.setText(String.valueOf(score));
                         vidaJefe -= 1;
                         if (vidaJefe == 0){
-                          winGame();  
+                          winGame(); 
+                          vida = 0;
                         }
                     }
                    
