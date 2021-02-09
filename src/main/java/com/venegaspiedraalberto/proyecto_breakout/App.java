@@ -27,6 +27,8 @@ import javafx.util.Duration;
  */
 public class App extends Application {
 
+    //Creación e inicialización de variables
+    
     int SCENE_TAM_X = 800;
     int SCENE_TAM_Y = 600;
     int ANCHURA_PALA = 70;
@@ -43,7 +45,8 @@ public class App extends Application {
     int score;
     int highScore;
     int TEXT_SIZE = 24;
-   
+
+    //Creación de los obstaculos
     Rectangle rectangleObstaculo1 = new Rectangle(5, 200, 193, 50);
     Rectangle rectangleObstaculo2 = new Rectangle(203, 200, 193, 50);
     Rectangle rectangleObstaculo3 = new Rectangle(403, 200, 193, 50);
@@ -116,7 +119,7 @@ public class App extends Application {
         groupPerson.setLayoutX(50);
         groupPerson.setLayoutY(50);
 
-        
+        // Añadir los objetos a la escena
         Pane root = new Pane();
         Scene scene = new Scene(root, SCENE_TAM_X, SCENE_TAM_Y, Color.LIGHTSLATEGREY);
         root.getChildren().add(imgView);
@@ -130,6 +133,7 @@ public class App extends Application {
         stage.setScene(scene);
         stage.show();
         
+        //Creación de la puntuación
         HBox paneScores = new HBox();
         paneScores.setTranslateY(20);
         paneScores.setMinWidth(SCENE_TAM_X);
@@ -145,7 +149,7 @@ public class App extends Application {
         paneHighScore.setSpacing(10);
         paneScores.getChildren().add(paneHighScore);
         
-        Text textTitleScore = new Text("Score");
+        Text textTitleScore = new Text("Puntuación");
         textTitleScore.setFont(Font.font(TEXT_SIZE));
         textTitleScore.setFill(Color.WHITE);
         
@@ -153,7 +157,7 @@ public class App extends Application {
         textScore.setFont(Font.font(TEXT_SIZE));
         textScore.setFill(Color.WHITE);
         
-        Text textTitleHighScore = new Text("Max.Score:");
+        Text textTitleHighScore = new Text("Max.Puntuación:");
         textTitleHighScore.setFont(Font.font(TEXT_SIZE));
         textTitleHighScore.setFill(Color.WHITE);
         
@@ -174,18 +178,25 @@ public class App extends Application {
         rectPala.setFill(Color.YELLOW);
         root.getChildren().add(rectPala);
 
+        //Creación de la pelota
         Circle circleBall = new Circle(ballCenterX, ballCenterY, 8, Color.LIGHTGRAY);
         root.getChildren().add(circleBall);
 
         Timeline animationBall = new Timeline(
                 new KeyFrame(Duration.seconds(0.017), (var ae) -> {
                     System.out.println(vidaJefe);
+                    
+                    //Movimiento de la pelota
                     circleBall.setCenterY(ballCenterY);
                     ballCenterY += ballCurrentSpeedY;
                     circleBall.setCenterX(ballCenterX);
                     ballCenterX += ballCurrentSpeedX;
+                    
+                    //Movimiento de la pala
                     stickPosX += stickCurrentSpeed;
                     rectPala.setX(stickPosX);
+                    
+                    //Movimiento del jefe
                     groupPerson.setLayoutX(groupPerson.getLayoutX()+ velocidadJefe);
                     if (groupPerson.getLayoutX() > (SCENE_TAM_X -70)) {
                         velocidadJefe= -velocidadJefe;
