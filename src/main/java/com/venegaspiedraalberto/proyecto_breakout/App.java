@@ -363,6 +363,7 @@ public class App extends Application {
         }
     }
 
+    //Reiniciar el juego tras acabar partida o perder
     private void resetGame() {
         ballCurrentSpeedX = 3;
         ballCurrentSpeedY = 3;
@@ -381,6 +382,7 @@ public class App extends Application {
        
     }
     
+    //Derrotar al jefe
     private void winGame() {
         groupPerson.setLayoutX(-1200);
         groupPerson.setLayoutY(-1200);
@@ -401,5 +403,5 @@ public class App extends Application {
     public static void main(String[] args) {
         launch();
     }
-
+    
 }
