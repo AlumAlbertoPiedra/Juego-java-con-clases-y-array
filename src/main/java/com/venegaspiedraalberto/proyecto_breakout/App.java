@@ -45,6 +45,7 @@ public class App extends Application {
     int score;
     int highScore;
     int TEXT_SIZE = 24;
+    ImageView imagenGameOverView;
 
     //Creación de los obstaculos
     Rectangle rectangleObstaculo1 = new Rectangle(5, 200, 193, 50);
@@ -52,7 +53,9 @@ public class App extends Application {
     Rectangle rectangleObstaculo3 = new Rectangle(403, 200, 193, 50);
     Rectangle rectangleObstaculo4 = new Rectangle(603, 200, 193, 50);
     
-    Group groupPerson= new Group();;
+    Group groupPerson= new Group();
+    
+    Pane root = new Pane();
 
     @Override
     public void start(Stage stage) {
@@ -120,7 +123,6 @@ public class App extends Application {
         groupPerson.setLayoutY(50);
 
         // Añadir los objetos a la escena
-        Pane root = new Pane();
         Scene scene = new Scene(root, SCENE_TAM_X, SCENE_TAM_Y, Color.LIGHTSLATEGREY);
         root.getChildren().add(imgView);
         root.getChildren().add(groupPerson);
@@ -151,19 +153,19 @@ public class App extends Application {
         
         Text textTitleScore = new Text("Puntuación");
         textTitleScore.setFont(Font.font(TEXT_SIZE));
-        textTitleScore.setFill(Color.WHITE);
+        textTitleScore.setFill(Color.BURLYWOOD);
         
         Text textScore = new Text("0");
         textScore.setFont(Font.font(TEXT_SIZE));
-        textScore.setFill(Color.WHITE);
+        textScore.setFill(Color.BURLYWOOD);
         
         Text textTitleHighScore = new Text("Max.Puntuación:");
         textTitleHighScore.setFont(Font.font(TEXT_SIZE));
-        textTitleHighScore.setFill(Color.WHITE);
+        textTitleHighScore.setFill(Color.BURLYWOOD);
         
         Text textHighScore = new Text ("0");
         textHighScore.setFont (Font.font(TEXT_SIZE));
-        textHighScore.setFill(Color.WHITE);
+        textHighScore.setFill(Color.BURLYWOOD);
         
         paneCurrentScore.getChildren().add(textTitleScore);
         paneCurrentScore.getChildren().add(textScore);
@@ -229,6 +231,11 @@ public class App extends Application {
                         }
                         score = 0;
                         textScore.setText(String.valueOf(score));
+                        var imagenGameOver = new Image(getClass().getResourceAsStream("/images/game-over.png"));
+                        imagenGameOverView = new ImageView(imagenGameOver);
+                        root.getChildren().add(imagenGameOverView);
+                        imagenGameOverView.setLayoutX(0);
+                        imagenGameOverView.setLayoutY(-100);
                     }
                     if (ballCenterY <= 0) {
                         ballCurrentSpeedY = 7;
@@ -282,10 +289,10 @@ public class App extends Application {
                         ballCurrentSpeedY = -ballCurrentSpeedY;
                         /*ballCenterY = (ballCenterY + (ballCurrentSpeedY*2));
                         circleBall.setCenterY(ballCenterY);*/
-                        if (groupPerson.getLayoutX()>= 690){
-                            groupPerson.setLayoutX(groupPerson.getLayoutX() -110);
-                        } else if (groupPerson.getLayoutY() <= 110){
-                            groupPerson.setLayoutX(groupPerson.getLayoutX() +110);
+                        if (groupPerson.getLayoutX()>= 650){
+                            groupPerson.setLayoutX(groupPerson.getLayoutX() -150);
+                        } else if (groupPerson.getLayoutY() <= 150){
+                            groupPerson.setLayoutX(groupPerson.getLayoutX() +150);
                         }
                         score += 50;
                         textScore.setText(String.valueOf(score));
@@ -379,6 +386,7 @@ public class App extends Application {
         vidaJefe = 3;
         groupPerson.setLayoutX(50);
         groupPerson.setLayoutY(50);
+        root.getChildren().remove(imagenGameOverView);
        
     }
     
