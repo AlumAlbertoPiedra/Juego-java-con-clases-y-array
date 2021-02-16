@@ -135,6 +135,10 @@ public class App extends Application {
         stage.setScene(scene);
         stage.show();
         
+        Bloques bloques = new Bloques(20);
+        
+        //this.eliminarBloque(3,5);
+        
         //Creación de la puntuación
         HBox paneScores = new HBox();
         paneScores.setTranslateY(20);
@@ -186,7 +190,6 @@ public class App extends Application {
 
         Timeline animationBall = new Timeline(
                 new KeyFrame(Duration.seconds(0.017), (var ae) -> {
-                    System.out.println(vidaJefe);
                     
                     //Movimiento de la pelota
                     circleBall.setCenterY(ballCenterY);
@@ -411,5 +414,5 @@ public class App extends Application {
     public static void main(String[] args) {
         launch();
     }
-    
+
 }
