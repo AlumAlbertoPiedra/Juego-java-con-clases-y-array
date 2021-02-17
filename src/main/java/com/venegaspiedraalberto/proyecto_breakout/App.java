@@ -137,7 +137,9 @@ public class App extends Application {
         
         Bloques bloques = new Bloques(20);
         
-        //this.eliminarBloque(3,5);
+        System.out.println();
+        
+        bloques.eliminarBloque(3,5);
         
         //Creación de la puntuación
         HBox paneScores = new HBox();
