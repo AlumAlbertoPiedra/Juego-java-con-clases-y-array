@@ -6,6 +6,8 @@ public final class Bloques{
     char [] [] pos;
     int columnas= 5;
     int filas;
+    int i = 3;
+    int p =3;
     
     public Bloques(int filas){
         this.filas = filas;
@@ -19,15 +21,14 @@ public final class Bloques{
             for(int f=0; f<filas; f++){
                 pos [c] [f] = bloque;
             }
-        }
-        
-        /*especialPalaX =getNumAleatorio(0,9);
-        especialPalaY =getNumAleatorio(0,9);
-        this.bloqueEspecialPala(especialPalaX,especialPalaY);*/
-        
-        especialVelX =getNumAleatorio(0,9);
-        especialVelY =getNumAleatorio(0,9);
+        }        
+        especialVelX = getNumAleatorio(0,4);
+        especialVelY =getNumAleatorio(0,19);
         this.bloqueEspecialVelocidad(especialVelX,especialVelY);
+        
+        especialPalaX =getNumAleatorio(0,4);
+        especialPalaY =getNumAleatorio(0,19);
+        this.bloqueEspecialPala(especialPalaX,especialPalaY);
         
         this.mostrarPorConsola();  
     }
@@ -35,7 +36,7 @@ public final class Bloques{
     public void eliminarBloque(int posX, int posY){
         char bloqueEliminado = ' ';
         pos [posX] [posY] = bloqueEliminado;
-        this.mostrarPorConsola();
+        this.mostrarPorConsola(); 
     }
     
     public void bloqueEspecialVelocidad(int especialVelX, int especialVelY){
@@ -50,6 +51,19 @@ public final class Bloques{
         Random random = new Random();
         int num = random.nextInt(max-min+1) + min;
         return num;
+    }
+    
+    public void comprobarFila(int fila){
+        for (int x=0; x<19; x++){
+            getchar(x,fila);
+            //if (caracter)
+            
+        }
+    }
+    
+    public char getchar(int i, int p){
+        char caracter = pos [i] [p];
+        return caracter;
     }
 
     public void mostrarPorConsola() {

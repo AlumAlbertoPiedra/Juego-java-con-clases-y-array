@@ -136,10 +136,11 @@ public class App extends Application {
         stage.show();
         
         Bloques bloques = new Bloques(20);
-        
         System.out.println();
         
         bloques.eliminarBloque(3,5);
+        System.out.println();
+        //bloques.getchar();
         
         //Creación de la puntuación
         HBox paneScores = new HBox();
