@@ -8,6 +8,10 @@ public final class Bloques{
     int filas;
     int i = 3;
     int p =3;
+    int puntuacion = 0;
+    int ballCurrentSpeedX = 3;
+    int ballCurrentSpeedY = 3;
+    int tamañoPala =70;
     
     public Bloques(int filas){
         this.filas = filas;
@@ -34,7 +38,14 @@ public final class Bloques{
     }
     
     public void eliminarBloque(int posX, int posY){
-        char bloqueEliminado = ' ';
+        char bloqueEliminado = ' ';
+        char caracter= getchar(posX, posY);
+        if (caracter == '+'){
+            ballCurrentSpeedX *= 1.5;
+            ballCurrentSpeedY *= 1.5;
+        } else if (caracter == '-') {
+            tamañoPala /= 2;
+        }
         pos [posX] [posY] = bloqueEliminado;
         this.mostrarPorConsola(); 
     }
@@ -53,12 +64,18 @@ public final class Bloques{
         return num;
     }
     
-    public void comprobarFila(int fila){
-        for (int x=0; x<19; x++){
-            getchar(x,fila);
-            //if (caracter)
-            
+    public boolean comprobarFilaVacia(int fila){
+        for (int x=0; x<20; x++){
+            char caracter = getchar(fila,x);
+            if (caracter != ' '){
+                System.out.println("La fila no esta vacia");
+                System.out.println(caracter);
+                return false;
+            }            
         }
+        System.out.println("La fila esta vacia");
+        puntuacion += 100;
+        return true;
     }
     
     public char getchar(int i, int p){
@@ -73,5 +90,8 @@ public final class Bloques{
             }
             System.out.println();
         }    
+    }
+    public void mostrarPuntuacion() {
+        System.out.println(puntuacion);
     }
 }
