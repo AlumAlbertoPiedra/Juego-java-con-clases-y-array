@@ -11,7 +11,9 @@ public final class Bloques{
     int puntuacion = 0;
     int ballCurrentSpeedX = 3;
     int ballCurrentSpeedY = 3;
-    int tamañoPala =70;
+    int tamañoPala =80;
+    int score = 0;
+    char carac;
     
     public Bloques(int filas){
         this.filas = filas;
@@ -26,28 +28,31 @@ public final class Bloques{
                 pos [c] [f] = bloque;
             }
         }        
-        especialVelX = getNumAleatorio(0,4);
+        especialVelX =getNumAleatorio(0,4);
         especialVelY =getNumAleatorio(0,19);
         this.bloqueEspecialVelocidad(especialVelX,especialVelY);
         
-        especialPalaX =getNumAleatorio(0,4);
-        especialPalaY =getNumAleatorio(0,19);
+        especialPalaX =1;//getNumAleatorio(0,4);
+        especialPalaY =1;//getNumAleatorio(0,19);
         this.bloqueEspecialPala(especialPalaX,especialPalaY);
         
         this.mostrarPorConsola();  
     }
     
-    public void eliminarBloque(int posX, int posY){
-        char bloqueEliminado = ' ';
+    public char eliminarBloque(int posX, int posY){
         char caracter= getchar(posX, posY);
         if (caracter == '+'){
-            ballCurrentSpeedX *= 1.5;
-            ballCurrentSpeedY *= 1.5;
+            ballCurrentSpeedX = 11;
+            ballCurrentSpeedY = 11;
         } else if (caracter == '-') {
-            tamañoPala /= 2;
+            tamañoPala = 50;
         }
+        char bloqueEliminado = ' ';
         pos [posX] [posY] = bloqueEliminado;
         this.mostrarPorConsola(); 
+        //carac = caracter;
+        return caracter;
+ 
     }
     
     public void bloqueEspecialVelocidad(int especialVelX, int especialVelY){
@@ -74,7 +79,7 @@ public final class Bloques{
             }            
         }
         System.out.println("La fila esta vacia");
-        puntuacion += 100;
+        score += 100;
         return true;
     }
     

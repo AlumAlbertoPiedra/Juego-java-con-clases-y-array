@@ -29,20 +29,22 @@ public class App extends Application {
 
     //Creación e inicialización de variables
     
+     Pane root = new Pane();
+    Bloques bloques = new Bloques(20);
+    
     int SCENE_TAM_X = 800;
     int SCENE_TAM_Y = 600;
-    int ANCHURA_PALA = 70;
     int ALTURA_PALA = 10;
     int ballCenterY = 350;
     int ballCenterX = 400;
     int stickCurrentSpeed = 0;
-    int stickPosX = (SCENE_TAM_X - ANCHURA_PALA) / 2;
+    int stickPosX = (SCENE_TAM_X - bloques.tamañoPala) / 2;
     int velocidadJefe = 5;
     int vida = 1;
     int vidaJefe = 3;
-    int score;
     int highScore;
     int TEXT_SIZE = 24;
+    char tipoBloque;
     ImageView imagenGameOverView;
 
     //Creación de los obstaculos
@@ -53,8 +55,6 @@ public class App extends Application {
     
     Group groupPerson= new Group();
     
-    Pane root = new Pane();
-    Bloques bloques = new Bloques(20);
 
     @Override
     public void start(Stage stage) {
@@ -156,7 +156,6 @@ public class App extends Application {
         bloques.eliminarBloque(3,18);
         bloques.eliminarBloque(3,19);
         System.out.println("");
-        bloques.comprobarFilaVacia(3);
         System.out.println("");
         bloques.mostrarPuntuacion();
         
@@ -202,7 +201,7 @@ public class App extends Application {
         
 
         //Creación de la pala del jugador
-        Rectangle rectPala = new Rectangle(SCENE_TAM_X / 2, SCENE_TAM_Y - 70, ANCHURA_PALA, ALTURA_PALA);
+        Rectangle rectPala = new Rectangle(SCENE_TAM_X / 2, SCENE_TAM_Y - 70, bloques.tamañoPala, ALTURA_PALA);
         rectPala.setFill(Color.YELLOW);
         root.getChildren().add(rectPala);
 
@@ -234,8 +233,8 @@ public class App extends Application {
                     if (stickPosX < 0) {
                         stickPosX = 0;
                     } else {
-                        if (stickPosX > (SCENE_TAM_X - ANCHURA_PALA)) {
-                            stickPosX = (SCENE_TAM_X - ANCHURA_PALA);
+                        if (stickPosX > (SCENE_TAM_X - bloques.tamañoPala)) {
+                            stickPosX = (SCENE_TAM_X - bloques.tamañoPala);
                         }
                     }
                     if (ballCenterX >= SCENE_TAM_X) {
@@ -250,12 +249,12 @@ public class App extends Application {
                         ballCenterY = 400;
                         ballCenterX = 400;
                         vida = 0;
-                        if(score > highScore){
-                            highScore= score;
+                        if(bloques.score > highScore){
+                            highScore= bloques.score;
                             textHighScore.setText(String.valueOf(highScore));
                         }
-                        score = 0;
-                        textScore.setText(String.valueOf(score));
+                        bloques.score = 0;
+                        textScore.setText(String.valueOf(bloques.score));
                         var imagenGameOver = new Image(getClass().getResourceAsStream("/images/game-over.png"));
                         imagenGameOverView = new ImageView(imagenGameOver);
                         root.getChildren().add(imagenGameOverView);
@@ -276,8 +275,9 @@ public class App extends Application {
                         bloques.ballCurrentSpeedY = -bloques.ballCurrentSpeedY;
                         rectangleObstaculo1.setLayoutX(-305);
                         rectangleObstaculo1.setLayoutY(-200);
-                        score += 10;
-                        textScore.setText(String.valueOf(score));
+                        bloques.comprobarFilaVacia(3);
+                        bloques.score += 10;
+                        textScore.setText(String.valueOf(bloques.score));
                     }
                     Shape shapeColision2 = Shape.intersect(circleBall, rectangleObstaculo2);
                     boolean colisionVacia2 = shapeColision2.getBoundsInLocal().isEmpty();
@@ -285,8 +285,8 @@ public class App extends Application {
                         bloques.ballCurrentSpeedY = -bloques.ballCurrentSpeedY;
                         rectangleObstaculo2.setLayoutX(-603);
                         rectangleObstaculo2.setLayoutY(-200);
-                        score += 10;
-                        textScore.setText(String.valueOf(score));
+                        bloques.score += 10;
+                        textScore.setText(String.valueOf(bloques.score));
                     }
                     Shape shapeColision3 = Shape.intersect(circleBall, rectangleObstaculo3);
                     boolean colisionVacia3 = shapeColision3.getBoundsInLocal().isEmpty();
@@ -294,8 +294,17 @@ public class App extends Application {
                         bloques.ballCurrentSpeedY = -bloques.ballCurrentSpeedY;
                         rectangleObstaculo3.setLayoutX(-803);
                         rectangleObstaculo3.setLayoutY(-200);
-                        score += 10;
-                        textScore.setText(String.valueOf(score));
+                        bloques.score += 10;
+                        textScore.setText(String.valueOf(bloques.score));
+                        tipoBloque = bloques.eliminarBloque(1,1);
+                        bloques.eliminarBloque(1,1);
+                        if (tipoBloque == '-'){
+                            rectPala.setWidth(bloques.tamañoPala);
+                        }
+                        
+                        //Eliminar bloque y actualizar tamaño de la pala
+                        //bloques.eliminarBloque(1,1);
+                        //rectPala.setWidth(bloques.tamañoPala);
                     }
                     Shape shapeColision4 = Shape.intersect(circleBall, rectangleObstaculo4);
                     boolean colisionVacia4 = shapeColision4.getBoundsInLocal().isEmpty();
@@ -304,8 +313,8 @@ public class App extends Application {
                         //root.getChildren().remove(rectangleObstaculo4);
                         rectangleObstaculo4.setLayoutX(-1003);
                         rectangleObstaculo4.setLayoutY(-200);
-                        score += 10;
-                        textScore.setText(String.valueOf(score));
+                        bloques.score += 10;
+                        textScore.setText(String.valueOf(bloques.score));
                     }
                    
                     Shape shapeColision5 = Shape.intersect(circleBall, zonaContacto1);
@@ -314,15 +323,15 @@ public class App extends Application {
                         bloques.ballCurrentSpeedY = -bloques.ballCurrentSpeedY;
                         /*ballCenterY = (ballCenterY + (ballCurrentSpeedY*2));
                         circleBall.setCenterY(ballCenterY);*/
-                        if (groupPerson.getLayoutX()>= 600){
+                        if (groupPerson.getLayoutX()>= 540){
                             groupPerson.setLayoutX(groupPerson.getLayoutX() -200);
                             velocidadJefe = -velocidadJefe;
-                        } else if (groupPerson.getLayoutY() <= 200){
+                        } else if (groupPerson.getLayoutY() <= 260){
                             groupPerson.setLayoutX(groupPerson.getLayoutX() +200);
                             velocidadJefe = -velocidadJefe;
                         }
-                        score += 50;
-                        textScore.setText(String.valueOf(score));
+                        bloques.score += 50;
+                        textScore.setText(String.valueOf(bloques.score));
                         vidaJefe -= 1;
                         if (vidaJefe == 0){
                           winGame(); 
