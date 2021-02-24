@@ -10,8 +10,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import static javafx.scene.input.KeyCode.LEFT;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Polygon;
@@ -29,8 +29,8 @@ public class App extends Application {
 
     //Creación e inicialización de variables
     
-     Pane root = new Pane();
-    Bloques bloques = new Bloques(20);
+    BorderPane root = new BorderPane();
+    Bloques bloques = new Bloques(5);
     
     int SCENE_TAM_X = 800;
     int SCENE_TAM_Y = 600;
@@ -48,10 +48,10 @@ public class App extends Application {
     ImageView imagenGameOverView;
 
     //Creación de los obstaculos
-    Rectangle rectangleObstaculo1 = new Rectangle(5, 200, 193, 50);
+    /*Rectangle rectangleObstaculo1 = new Rectangle(5, 200, 193, 50);
     Rectangle rectangleObstaculo2 = new Rectangle(203, 200, 193, 50);
     Rectangle rectangleObstaculo3 = new Rectangle(403, 200, 193, 50);
-    Rectangle rectangleObstaculo4 = new Rectangle(603, 200, 193, 50);
+    Rectangle rectangleObstaculo4 = new Rectangle(603, 200, 193, 50);*/
     
     Group groupPerson= new Group();
     
@@ -100,10 +100,10 @@ public class App extends Application {
         polygonOjo.setFill(Color.RED);
 
         //Color Obstaculos
-        rectangleObstaculo1.setFill(Color.BLUE);
+        /*rectangleObstaculo1.setFill(Color.BLUE);
         rectangleObstaculo2.setFill(Color.RED);
         rectangleObstaculo3.setFill(Color.YELLOW);
-        rectangleObstaculo4.setFill(Color.GREEN);
+        rectangleObstaculo4.setFill(Color.GREEN);*/
 
         //Unión partes del personaje
         
@@ -125,17 +125,20 @@ public class App extends Application {
         Scene scene = new Scene(root, SCENE_TAM_X, SCENE_TAM_Y, Color.LIGHTSLATEGREY);
         root.getChildren().add(imgView);
         root.getChildren().add(groupPerson);
-        root.getChildren().add(rectangleObstaculo1);
+        /*root.getChildren().add(rectangleObstaculo1);
         root.getChildren().add(rectangleObstaculo2);
         root.getChildren().add(rectangleObstaculo3);
-        root.getChildren().add(rectangleObstaculo4);
+        root.getChildren().add(rectangleObstaculo4);*/
         stage.setResizable(false);
         stage.setTitle("BreakoutFX");
         stage.setScene(scene);
         stage.show();
         
+        BloquesView bloquesView = new BloquesView(bloques);
+        root.setCenter(bloquesView);
+        
         System.out.println();
-        bloques.eliminarBloque(3,0);
+        /*bloques.eliminarBloque(3,0);
         bloques.eliminarBloque(3,1);
         bloques.eliminarBloque(3,2);
         bloques.eliminarBloque(3,3);
@@ -154,7 +157,7 @@ public class App extends Application {
         bloques.eliminarBloque(3,16);
         bloques.eliminarBloque(3,17);
         bloques.eliminarBloque(3,18);
-        bloques.eliminarBloque(3,19);
+        bloques.eliminarBloque(3,19);*/
         System.out.println("");
         System.out.println("");
         bloques.mostrarPuntuacion();
@@ -269,31 +272,31 @@ public class App extends Application {
                     if (colisionVacia == false) {
                         bloques.ballCurrentSpeedY = -8;
                     }
-                    Shape shapeColision1 = Shape.intersect(circleBall, rectangleObstaculo1);
-                    boolean colisionVacia1 = shapeColision1.getBoundsInLocal().isEmpty();
-                    if (colisionVacia1 == false) {
+                    //Shape shapeColision1 = Shape.intersect(circleBall, rectangleObstaculo1);
+                    //boolean colisionVacia1 = shapeColision1.getBoundsInLocal().isEmpty();
+                    //if (colisionVacia1 == false) {
                         bloques.ballCurrentSpeedY = -bloques.ballCurrentSpeedY;
-                        rectangleObstaculo1.setLayoutX(-305);
-                        rectangleObstaculo1.setLayoutY(-200);
-                        bloques.comprobarFilaVacia(3);
+                        //rectangleObstaculo1.setLayoutX(-305);
+                        //rectangleObstaculo1.setLayoutY(-200);
+                       // bloques.comprobarFilaVacia(3);
+                        //bloques.score += 10;
+                        textScore.setText(String.valueOf(bloques.score));
+                    //}
+                    //Shape shapeColision2 = Shape.intersect(circleBall, rectangleObstaculo2);
+                    //boolean colisionVacia2 = shapeColision2.getBoundsInLocal().isEmpty();
+                    //if (colisionVacia2 == false) {
+                        bloques.ballCurrentSpeedY = -bloques.ballCurrentSpeedY;
+                        /*rectangleObstaculo2.setLayoutX(-603);
+                        rectangleObstaculo2.setLayoutY(-200);*/
                         bloques.score += 10;
                         textScore.setText(String.valueOf(bloques.score));
-                    }
-                    Shape shapeColision2 = Shape.intersect(circleBall, rectangleObstaculo2);
-                    boolean colisionVacia2 = shapeColision2.getBoundsInLocal().isEmpty();
-                    if (colisionVacia2 == false) {
+                    //}
+                    //Shape shapeColision3 = Shape.intersect(circleBall, rectangleObstaculo3);
+                    //boolean colisionVacia3 = shapeColision3.getBoundsInLocal().isEmpty();
+                    //if (colisionVacia3 == false) {
                         bloques.ballCurrentSpeedY = -bloques.ballCurrentSpeedY;
-                        rectangleObstaculo2.setLayoutX(-603);
-                        rectangleObstaculo2.setLayoutY(-200);
-                        bloques.score += 10;
-                        textScore.setText(String.valueOf(bloques.score));
-                    }
-                    Shape shapeColision3 = Shape.intersect(circleBall, rectangleObstaculo3);
-                    boolean colisionVacia3 = shapeColision3.getBoundsInLocal().isEmpty();
-                    if (colisionVacia3 == false) {
-                        bloques.ballCurrentSpeedY = -bloques.ballCurrentSpeedY;
-                        rectangleObstaculo3.setLayoutX(-803);
-                        rectangleObstaculo3.setLayoutY(-200);
+                        /*rectangleObstaculo3.setLayoutX(-803);
+                        rectangleObstaculo3.setLayoutY(-200);*/
                         bloques.score += 10;
                         textScore.setText(String.valueOf(bloques.score));
                         tipoBloque = bloques.eliminarBloque(1,1);
@@ -305,17 +308,17 @@ public class App extends Application {
                         //Eliminar bloque y actualizar tamaño de la pala
                         //bloques.eliminarBloque(1,1);
                         //rectPala.setWidth(bloques.tamañoPala);
-                    }
-                    Shape shapeColision4 = Shape.intersect(circleBall, rectangleObstaculo4);
-                    boolean colisionVacia4 = shapeColision4.getBoundsInLocal().isEmpty();
-                    if (colisionVacia4 == false) {
+                    //}
+                    //Shape shapeColision4 = Shape.intersect(circleBall, rectangleObstaculo4);
+                    //boolean colisionVacia4 = shapeColision4.getBoundsInLocal().isEmpty();
+                    //if (colisionVacia4 == false) {
                         bloques.ballCurrentSpeedY = -bloques.ballCurrentSpeedY;
                         //root.getChildren().remove(rectangleObstaculo4);
-                        rectangleObstaculo4.setLayoutX(-1003);
-                        rectangleObstaculo4.setLayoutY(-200);
+                        //rectangleObstaculo4.setLayoutX(-1003);
+                        //rectangleObstaculo4.setLayoutY(-200);
                         bloques.score += 10;
                         textScore.setText(String.valueOf(bloques.score));
-                    }
+                    //}
                    
                     Shape shapeColision5 = Shape.intersect(circleBall, zonaContacto1);
                     boolean colisionVacia5 = shapeColision5.getBoundsInLocal().isEmpty();
@@ -410,14 +413,14 @@ public class App extends Application {
     private void resetGame() {
         bloques.ballCurrentSpeedX = 3;
         bloques.ballCurrentSpeedY = 3;
-        rectangleObstaculo1.setLayoutX(0);
+        /*rectangleObstaculo1.setLayoutX(0);
         rectangleObstaculo1.setLayoutY(0);
         rectangleObstaculo2.setLayoutX(0);
         rectangleObstaculo2.setLayoutY(0);
         rectangleObstaculo3.setLayoutX(0);
         rectangleObstaculo3.setLayoutY(0);
         rectangleObstaculo4.setLayoutX(0);
-        rectangleObstaculo4.setLayoutY(0);
+        rectangleObstaculo4.setLayoutY(0);*/
         vida = 1;
         vidaJefe = 3;
         groupPerson.setLayoutX(50);
@@ -434,14 +437,14 @@ public class App extends Application {
         bloques.ballCurrentSpeedY = 0;
         ballCenterY = 400;
         ballCenterX = 400;
-        rectangleObstaculo4.setLayoutX(-1003);
+        /*rectangleObstaculo4.setLayoutX(-1003);
         rectangleObstaculo4.setLayoutY(-200);
         rectangleObstaculo3.setLayoutX(-803);
         rectangleObstaculo3.setLayoutY(-200);
         rectangleObstaculo2.setLayoutX(-603);
         rectangleObstaculo2.setLayoutY(-200);
         rectangleObstaculo1.setLayoutX(-305);
-        rectangleObstaculo1.setLayoutY(-200);
+        rectangleObstaculo1.setLayoutY(-200);*/
     }
 
     public static void main(String[] args) {

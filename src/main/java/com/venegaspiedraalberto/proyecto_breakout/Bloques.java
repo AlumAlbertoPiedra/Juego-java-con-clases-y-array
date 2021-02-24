@@ -4,9 +4,9 @@ import java.util.Random;
 
 public final class Bloques{ 
     char [] [] pos;
-    int columnas= 5;
+    int columnas= 20;
     int filas;
-    int i = 3;
+    int i =3;
     int p =3;
     int puntuacion = 0;
     int ballCurrentSpeedX = 3;
@@ -14,6 +14,8 @@ public final class Bloques{
     int tamañoPala =80;
     int score = 0;
     char carac;
+    int anchoBloque = 40;
+    int altoBloque = 40;
     
     public Bloques(int filas){
         this.filas = filas;
@@ -28,8 +30,8 @@ public final class Bloques{
                 pos [c] [f] = bloque;
             }
         }        
-        especialVelX =getNumAleatorio(0,4);
-        especialVelY =getNumAleatorio(0,19);
+        especialVelX =getNumAleatorio(0,19);
+        especialVelY =getNumAleatorio(0,4);
         this.bloqueEspecialVelocidad(especialVelX,especialVelY);
         
         especialPalaX =1;//getNumAleatorio(0,4);
