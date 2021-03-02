@@ -1,9 +1,15 @@
 package com.venegaspiedraalberto.proyecto_breakout; 
 
 import java.util.Random;
+import javafx.scene.shape.Rectangle;
+
+
+// Tengo que crear un array para los rectangulos y poder diferenciarlos entre si
+
 
 public final class Bloques{ 
     char [] [] pos;
+    Rectangle [] [] rect;
     int columnas= 20;
     int filas;
     int i =3;
@@ -14,8 +20,8 @@ public final class Bloques{
     int tamañoPala =80;
     int score = 0;
     char carac;
-    int anchoBloque = 40;
-    int altoBloque = 40;
+    final int ANCHOBLOQUE = 40;
+    final int ALTOBLOQUE = 40;
     
     public Bloques(int filas){
         this.filas = filas;
@@ -24,6 +30,7 @@ public final class Bloques{
         int especialVelY;
         int especialPalaX;
         int especialPalaY;
+        Rectangle rectangle = new Rectangle();
         pos = new char [columnas] [filas];
         for(int c=0; c<columnas; c++){
             for(int f=0; f<filas; f++){
@@ -34,8 +41,8 @@ public final class Bloques{
         especialVelY =getNumAleatorio(0,4);
         this.bloqueEspecialVelocidad(especialVelX,especialVelY);
         
-        especialPalaX =1;//getNumAleatorio(0,4);
-        especialPalaY =1;//getNumAleatorio(0,19);
+        especialPalaX =getNumAleatorio(0,19);
+        especialPalaY =getNumAleatorio(0,4);
         this.bloqueEspecialPala(especialPalaX,especialPalaY);
         
         this.mostrarPorConsola();  

@@ -35,8 +35,6 @@ public class App extends Application {
     int SCENE_TAM_X = 800;
     int SCENE_TAM_Y = 600;
     int ALTURA_PALA = 10;
-    int ballCenterY = 350;
-    int ballCenterX = 400;
     int stickCurrentSpeed = 0;
     int stickPosX = (SCENE_TAM_X - bloques.tamañoPala) / 2;
     int velocidadJefe = 5;
@@ -46,14 +44,11 @@ public class App extends Application {
     int TEXT_SIZE = 24;
     char tipoBloque;
     ImageView imagenGameOverView;
+    
 
-    //Creación de los obstaculos
-    /*Rectangle rectangleObstaculo1 = new Rectangle(5, 200, 193, 50);
-    Rectangle rectangleObstaculo2 = new Rectangle(203, 200, 193, 50);
-    Rectangle rectangleObstaculo3 = new Rectangle(403, 200, 193, 50);
-    Rectangle rectangleObstaculo4 = new Rectangle(603, 200, 193, 50);*/
     
     Group groupPerson= new Group();
+    BloquesView bloquesView = new BloquesView(bloques);
     
 
     @Override
@@ -77,7 +72,7 @@ public class App extends Application {
         Polygon polygonOjo = new Polygon(5.0, 10.0, 15.0, 10.0, 10.0, 5.0);
         polygonOjo.setLayoutX(14);
         polygonOjo.setLayoutY(2);
-        Rectangle zonaContacto1 = new Rectangle(-20,0,100,120);
+        Rectangle zonaContacto1 = new Rectangle(-20,0,90,120);
         zonaContacto1.setVisible(false);
 
         //Creación de obstaculos
@@ -99,11 +94,6 @@ public class App extends Application {
         polygonCuerno2.setRotate(180);
         polygonOjo.setFill(Color.RED);
 
-        //Color Obstaculos
-        /*rectangleObstaculo1.setFill(Color.BLUE);
-        rectangleObstaculo2.setFill(Color.RED);
-        rectangleObstaculo3.setFill(Color.YELLOW);
-        rectangleObstaculo4.setFill(Color.GREEN);*/
 
         //Unión partes del personaje
         
@@ -119,7 +109,9 @@ public class App extends Application {
         groupPerson.getChildren().add(zonaContacto1);
 
         groupPerson.setLayoutX(50);
-        groupPerson.setLayoutY(50);
+        groupPerson.setLayoutY(0);
+        groupPerson.setScaleX(0.75);
+        groupPerson.setScaleY(0.75);
 
         // Añadir los objetos a la escena
         Scene scene = new Scene(root, SCENE_TAM_X, SCENE_TAM_Y, Color.LIGHTSLATEGREY);
@@ -134,7 +126,6 @@ public class App extends Application {
         stage.setScene(scene);
         stage.show();
         
-        BloquesView bloquesView = new BloquesView(bloques);
         root.setCenter(bloquesView);
         
         System.out.println();
@@ -209,17 +200,16 @@ public class App extends Application {
         root.getChildren().add(rectPala);
 
         //Creación de la pelota
-        Circle circleBall = new Circle(ballCenterX, ballCenterY, 8, Color.LIGHTGRAY);
-        root.getChildren().add(circleBall);
+        root.getChildren().add(bloquesView.circleBall);
 
         Timeline animationBall = new Timeline(
                 new KeyFrame(Duration.seconds(0.017), (var ae) -> {
                     
                     //Movimiento de la pelota
-                    circleBall.setCenterY(ballCenterY);
-                    ballCenterY += bloques.ballCurrentSpeedY;
-                    circleBall.setCenterX(ballCenterX);
-                    ballCenterX += bloques.ballCurrentSpeedX;
+                    bloquesView.circleBall.setCenterY(bloquesView.ballCenterY);
+                    bloquesView.ballCenterY += bloques.ballCurrentSpeedY;
+                    bloquesView.circleBall.setCenterX(bloquesView.ballCenterX);
+                    bloquesView.ballCenterX += bloques.ballCurrentSpeedX;
                     
                     //Movimiento de la pala
                     stickPosX += stickCurrentSpeed;
@@ -240,17 +230,17 @@ public class App extends Application {
                             stickPosX = (SCENE_TAM_X - bloques.tamañoPala);
                         }
                     }
-                    if (ballCenterX >= SCENE_TAM_X) {
+                    if (bloquesView.ballCenterX >= SCENE_TAM_X) {
                         bloques.ballCurrentSpeedX = -8;
                     }
-                    if (ballCenterX <= 0) {
+                    if (bloquesView.ballCenterX <= 0) {
                         bloques.ballCurrentSpeedX = 8;
                     }
-                    if (ballCenterY >= SCENE_TAM_Y) {
+                    if (bloquesView.ballCenterY >= SCENE_TAM_Y) {
                         bloques.ballCurrentSpeedX = 0;
                         bloques.ballCurrentSpeedY = 0;
-                        ballCenterY = 400;
-                        ballCenterX = 400;
+                        bloquesView.ballCenterY = 400;
+                        bloquesView.ballCenterX = 400;
                         vida = 0;
                         if(bloques.score > highScore){
                             highScore= bloques.score;
@@ -264,10 +254,10 @@ public class App extends Application {
                         imagenGameOverView.setLayoutX(0);
                         imagenGameOverView.setLayoutY(-100);
                     }
-                    if (ballCenterY <= 0) {
+                    if (bloquesView.ballCenterY <= 0) {
                         bloques.ballCurrentSpeedY = 8;
                     }
-                    Shape shapeColision = Shape.intersect(circleBall, rectPala);
+                    Shape shapeColision = Shape.intersect(bloquesView.circleBall, rectPala);
                     boolean colisionVacia = shapeColision.getBoundsInLocal().isEmpty();
                     if (colisionVacia == false) {
                         bloques.ballCurrentSpeedY = -8;
@@ -320,7 +310,7 @@ public class App extends Application {
                         textScore.setText(String.valueOf(bloques.score));
                     //}
                    
-                    Shape shapeColision5 = Shape.intersect(circleBall, zonaContacto1);
+                    Shape shapeColision5 = Shape.intersect(bloquesView.circleBall, zonaContacto1);
                     boolean colisionVacia5 = shapeColision5.getBoundsInLocal().isEmpty();
                     if (colisionVacia5 == false) {
                         bloques.ballCurrentSpeedY = -bloques.ballCurrentSpeedY;
@@ -342,7 +332,7 @@ public class App extends Application {
                         }
                     }
                    
-                    calculateBallSpeed(getStickCollisionZone(circleBall, rectPala));
+                    calculateBallSpeed(getStickCollisionZone(bloquesView.circleBall, rectPala));
                 })
         );
         animationBall.setCycleCount(Timeline.INDEFINITE);
@@ -413,18 +403,10 @@ public class App extends Application {
     private void resetGame() {
         bloques.ballCurrentSpeedX = 3;
         bloques.ballCurrentSpeedY = 3;
-        /*rectangleObstaculo1.setLayoutX(0);
-        rectangleObstaculo1.setLayoutY(0);
-        rectangleObstaculo2.setLayoutX(0);
-        rectangleObstaculo2.setLayoutY(0);
-        rectangleObstaculo3.setLayoutX(0);
-        rectangleObstaculo3.setLayoutY(0);
-        rectangleObstaculo4.setLayoutX(0);
-        rectangleObstaculo4.setLayoutY(0);*/
         vida = 1;
         vidaJefe = 3;
         groupPerson.setLayoutX(50);
-        groupPerson.setLayoutY(50);
+        groupPerson.setLayoutY(0);
         root.getChildren().remove(imagenGameOverView);
        
     }
@@ -435,16 +417,8 @@ public class App extends Application {
         groupPerson.setLayoutY(-1200);
         bloques.ballCurrentSpeedX = 0;
         bloques.ballCurrentSpeedY = 0;
-        ballCenterY = 400;
-        ballCenterX = 400;
-        /*rectangleObstaculo4.setLayoutX(-1003);
-        rectangleObstaculo4.setLayoutY(-200);
-        rectangleObstaculo3.setLayoutX(-803);
-        rectangleObstaculo3.setLayoutY(-200);
-        rectangleObstaculo2.setLayoutX(-603);
-        rectangleObstaculo2.setLayoutY(-200);
-        rectangleObstaculo1.setLayoutX(-305);
-        rectangleObstaculo1.setLayoutY(-200);*/
+        bloquesView.ballCenterY = 400;
+        bloquesView.ballCenterX = 400;
     }
 
     public static void main(String[] args) {
