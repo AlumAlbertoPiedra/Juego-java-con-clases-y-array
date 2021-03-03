@@ -1,6 +1,7 @@
 package com.venegaspiedraalberto.proyecto_breakout; 
 
 import java.util.Random;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 
@@ -9,7 +10,6 @@ import javafx.scene.shape.Rectangle;
 
 public final class Bloques{ 
     char [] [] pos;
-    Rectangle [] [] rect;
     int columnas= 20;
     int filas;
     int i =3;
@@ -19,7 +19,6 @@ public final class Bloques{
     int ballCurrentSpeedY = 3;
     int tamañoPala =80;
     int score = 0;
-    char carac;
     final int ANCHOBLOQUE = 40;
     final int ALTOBLOQUE = 40;
     
@@ -30,7 +29,7 @@ public final class Bloques{
         int especialVelY;
         int especialPalaX;
         int especialPalaY;
-        Rectangle rectangle = new Rectangle();
+        
         pos = new char [columnas] [filas];
         for(int c=0; c<columnas; c++){
             for(int f=0; f<filas; f++){
@@ -59,7 +58,6 @@ public final class Bloques{
         char bloqueEliminado = ' ';
         pos [posX] [posY] = bloqueEliminado;
         this.mostrarPorConsola(); 
-        //carac = caracter;
         return caracter;
  
     }
