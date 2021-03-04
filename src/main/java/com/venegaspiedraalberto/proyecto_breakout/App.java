@@ -38,8 +38,6 @@ public class App extends Application {
     int stickCurrentSpeed = 0;
     int stickPosX = (SCENE_TAM_X - bloques.tamañoPala) / 2;
     int velocidadJefe = 5;
-    int vida = 1;
-    int vidaJefe = 3;
     int highScore;
     int TEXT_SIZE = 24;
     char tipoBloque;
@@ -241,7 +239,7 @@ public class App extends Application {
                         bloques.ballCurrentSpeedY = 0;
                         bloquesView.ballCenterY = 400;
                         bloquesView.ballCenterX = 400;
-                        vida = 0;
+                        bloquesView.vida = 0;
                         if(bloques.score > highScore){
                             highScore= bloques.score;
                             textHighScore.setText(String.valueOf(highScore));
@@ -265,7 +263,7 @@ public class App extends Application {
                     //Shape shapeColision1 = Shape.intersect(circleBall, rectangleObstaculo1);
                     //boolean colisionVacia1 = shapeColision1.getBoundsInLocal().isEmpty();
                     //if (colisionVacia1 == false) {
-                        bloques.ballCurrentSpeedY = -bloques.ballCurrentSpeedY;
+                        //bloques.ballCurrentSpeedY = -bloques.ballCurrentSpeedY;
                         //rectangleObstaculo1.setLayoutX(-305);
                         //rectangleObstaculo1.setLayoutY(-200);
                        // bloques.comprobarFilaVacia(3);
@@ -275,25 +273,25 @@ public class App extends Application {
                     //Shape shapeColision2 = Shape.intersect(circleBall, rectangleObstaculo2);
                     //boolean colisionVacia2 = shapeColision2.getBoundsInLocal().isEmpty();
                     //if (colisionVacia2 == false) {
-                        bloques.ballCurrentSpeedY = -bloques.ballCurrentSpeedY;
+                        //bloques.ballCurrentSpeedY = -bloques.ballCurrentSpeedY;
                         /*rectangleObstaculo2.setLayoutX(-603);
-                        rectangleObstaculo2.setLayoutY(-200);*/
+                        rectangleObstaculo2.setLayoutY(-200);
                         bloques.score += 10;
-                        textScore.setText(String.valueOf(bloques.score));
+                        textScore.setText(String.valueOf(bloques.score));*/
                     //}
                     //Shape shapeColision3 = Shape.intersect(circleBall, rectangleObstaculo3);
                     //boolean colisionVacia3 = shapeColision3.getBoundsInLocal().isEmpty();
                     //if (colisionVacia3 == false) {
-                        bloques.ballCurrentSpeedY = -bloques.ballCurrentSpeedY;
+                        /*bloques.ballCurrentSpeedY = -bloques.ballCurrentSpeedY;
                         /*rectangleObstaculo3.setLayoutX(-803);
-                        rectangleObstaculo3.setLayoutY(-200);*/
+                        rectangleObstaculo3.setLayoutY(-200);
                         bloques.score += 10;
                         textScore.setText(String.valueOf(bloques.score));
                         tipoBloque = bloques.eliminarBloque(1,1);
                         bloques.eliminarBloque(1,1);
                         if (tipoBloque == '-'){
                             rectPala.setWidth(bloques.tamañoPala);
-                        }
+                        }*/
                         
                         //Eliminar bloque y actualizar tamaño de la pala
                         //bloques.eliminarBloque(1,1);
@@ -302,12 +300,12 @@ public class App extends Application {
                     //Shape shapeColision4 = Shape.intersect(circleBall, rectangleObstaculo4);
                     //boolean colisionVacia4 = shapeColision4.getBoundsInLocal().isEmpty();
                     //if (colisionVacia4 == false) {
-                        bloques.ballCurrentSpeedY = -bloques.ballCurrentSpeedY;
+                        //bloques.ballCurrentSpeedY = -bloques.ballCurrentSpeedY;
                         //root.getChildren().remove(rectangleObstaculo4);
                         //rectangleObstaculo4.setLayoutX(-1003);
                         //rectangleObstaculo4.setLayoutY(-200);
-                        bloques.score += 10;
-                        textScore.setText(String.valueOf(bloques.score));
+                        //bloques.score += 10;
+                        //textScore.setText(String.valueOf(bloques.score));
                     //}
                    
                     Shape shapeColision5 = Shape.intersect(bloquesView.circleBall, zonaContacto1);
@@ -325,12 +323,13 @@ public class App extends Application {
                         }
                         bloques.score += 50;
                         textScore.setText(String.valueOf(bloques.score));
-                        vidaJefe -= 1;
-                        if (vidaJefe == 0){
+                        bloquesView.vidaJefe -= 1;
+                        if (bloquesView.vidaJefe == 0){
                           winGame(); 
-                          vida = 0;
+                          bloquesView.vida = 0;
                         }
                     }
+                    bloquesView.colisionObjeto();
                    
                     calculateBallSpeed(getStickCollisionZone(bloquesView.circleBall, rectPala));
                 })
@@ -348,7 +347,7 @@ public class App extends Application {
                     stickCurrentSpeed = 12;
                     break;
                 case ENTER:
-                    if (vida == 0) {
+                    if (bloquesView.vida == 0) {
                         resetGame();
                     }
             }
@@ -382,18 +381,18 @@ public class App extends Application {
                 break;
             case 1:
                 bloques.ballCurrentSpeedX = -8;
-                bloques.ballCurrentSpeedY = -8;
+                bloques.ballCurrentSpeedY = -7;
                 break;
             case 2:
-                bloques.ballCurrentSpeedX = -6;
+                bloques.ballCurrentSpeedX = -5;
                 bloques.ballCurrentSpeedY = -8;
                 break;
             case 3:
-                bloques.ballCurrentSpeedX = 6;
+                bloques.ballCurrentSpeedX = 5;
                 bloques.ballCurrentSpeedY = -8;
                 break;
             case 4:
-                bloques.ballCurrentSpeedX = 8;
+                bloques.ballCurrentSpeedX = 7;
                 bloques.ballCurrentSpeedY = -8;
                 break;
         }
@@ -403,12 +402,11 @@ public class App extends Application {
     private void resetGame() {
         bloques.ballCurrentSpeedX = 3;
         bloques.ballCurrentSpeedY = 3;
-        vida = 1;
-        vidaJefe = 3;
+        bloquesView.vida = 1;
+        bloquesView.vidaJefe = 3;
         groupPerson.setLayoutX(50);
         groupPerson.setLayoutY(0);
-        root.getChildren().remove(imagenGameOverView);
-       
+        root.getChildren().remove(imagenGameOverView); 
     }
     
     //Derrotar al jefe

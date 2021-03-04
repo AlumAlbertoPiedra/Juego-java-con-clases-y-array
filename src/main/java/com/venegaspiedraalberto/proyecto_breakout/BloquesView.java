@@ -9,14 +9,18 @@ import javafx.scene.shape.Shape;
 
 public class BloquesView extends GridPane {
         //Rectangle rectangleObstaculo = new Rectangle();
-        int ballCenterY = 350;
-        int ballCenterX = 400;
+        int ballCenterY = 450;
+        int ballCenterX = 500;
         Circle circleBall = new Circle(ballCenterX, ballCenterY, 8, Color.LIGHTGRAY);
         Rectangle [] [] rect;
+        Bloques bloques;
+        int vida = 1;
+        int vidaJefe = 3;
         
         
     
-    public BloquesView(Bloques bloques) {  
+    public BloquesView(Bloques bloques) { 
+        this.bloques =bloques;
         rect = new Rectangle [bloques.columnas] [bloques.filas];
         for (int a= 0; a<bloques.columnas; a++){
             for(int b=0; b<bloques.filas; b++){
@@ -53,18 +57,29 @@ public class BloquesView extends GridPane {
             }
         }
     }
-    public void colisionObjeto(Bloques bloques){
-        for(int y=0; y<bloques.filas; y++) {
-            for(int x=0; x<bloques.filas; x++) {
+    public void colisionObjeto(){
+        for(int x=0; x<bloques.columnas; x++) {
+            for(int y=0; y<bloques.filas; y++) {
                 Shape shapeColision = Shape.intersect(circleBall, rect [x] [y]);
                 boolean colisionVacia = shapeColision.getBoundsInLocal().isEmpty();
                 if (colisionVacia == false) {
                     bloques.ballCurrentSpeedX = -bloques.ballCurrentSpeedX;
                     bloques.ballCurrentSpeedY = -bloques.ballCurrentSpeedY;
+                    System.out.println("Hola");
+                    bloques.eliminarBloque(x, y);
+                    rect[x] [y].setTranslateX(2000);
                 }    
             }
         }      
     }
-    
+    public void resetGame() {
+        bloques.ballCurrentSpeedX = 3;
+        bloques.ballCurrentSpeedY = 3;
+        vida = 1;
+        vidaJefe = 3;
+        /*groupPerson.setLayoutX(50);
+        groupPerson.setLayoutY(0);
+        root.getChildren().remove(imagenGameOverView); */
         
+    }
 }
