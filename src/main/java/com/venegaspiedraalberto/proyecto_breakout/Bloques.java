@@ -1,8 +1,6 @@
 package com.venegaspiedraalberto.proyecto_breakout; 
 
 import java.util.Random;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 
 
 // Tengo que crear un array para los rectangulos y poder diferenciarlos entre si
@@ -21,6 +19,9 @@ public final class Bloques{
     int score = 0;
     final int ANCHOBLOQUE = 40;
     final int ALTOBLOQUE = 40;
+    int vida = 1;
+    int vidaJefe = 3;
+        
     
     public Bloques(int filas){
         this.filas = filas;
@@ -105,5 +106,11 @@ public final class Bloques{
     }
     public void mostrarPuntuacion() {
         System.out.println(puntuacion);
+    }
+    public void resetGame() {
+        ballCurrentSpeedX = 3;
+        ballCurrentSpeedY = 3;
+        vida = 1;
+        vidaJefe = 3;
     }
 }

@@ -4,7 +4,6 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.geometry.Pos;
-import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -37,7 +36,7 @@ public class App extends Application {
     int ALTURA_PALA = 10;
     int stickCurrentSpeed = 0;
     int stickPosX = (SCENE_TAM_X - bloques.tamañoPala) / 2;
-    int velocidadJefe = 5;
+    
     int highScore;
     int TEXT_SIZE = 24;
     char tipoBloque;
@@ -45,7 +44,7 @@ public class App extends Application {
     
 
     
-    Group groupPerson= new Group();
+    Personaje personaje= new Personaje();
     BloquesView bloquesView = new BloquesView(bloques);
     
 
@@ -53,7 +52,7 @@ public class App extends Application {
     public void start(Stage stage) {
        
 
-        //Creación de personaje
+        /*Creación de personaje
         Rectangle rectangleCuerpoInferior = new Rectangle(0, 50, 50, 70);
         Rectangle rectangleMano1 = new Rectangle(-15, 40, 15, 30);
         Rectangle rectangleMano2 = new Rectangle(50, 40, 15, 30);
@@ -69,7 +68,7 @@ public class App extends Application {
         polygonCuerno2.setLayoutY(-4);
         Polygon polygonOjo = new Polygon(5.0, 10.0, 15.0, 10.0, 10.0, 5.0);
         polygonOjo.setLayoutX(14);
-        polygonOjo.setLayoutY(2);
+        polygonOjo.setLayoutY(2);*/
         Rectangle zonaContacto1 = new Rectangle(-20,0,90,120);
         zonaContacto1.setVisible(false);
 
@@ -80,7 +79,7 @@ public class App extends Application {
         ImageView imgView = new ImageView(img);
 
         //Color personaje
-        rectangleMano1.setFill(Color.GREY);
+        /*rectangleMano1.setFill(Color.GREY);
         rectangleMano2.setFill(Color.GREY);
         rectangleCuerpoInferior.setFill(Color.PURPLE);
         rectangleCuerpoSuperior.setFill(Color.DARKGREY);
@@ -90,31 +89,31 @@ public class App extends Application {
         polygonCuerno1.setRotate(270);
         polygonCuerno2.setFill(Color.GREY);
         polygonCuerno2.setRotate(180);
-        polygonOjo.setFill(Color.RED);
+        polygonOjo.setFill(Color.RED);*/
 
 
         //Unión partes del personaje
         
-        groupPerson.getChildren().add(rectangleCuerpoInferior);
-        groupPerson.getChildren().add(rectangleCuerpoSuperior);
-        groupPerson.getChildren().add(rectangleMano1);
-        groupPerson.getChildren().add(rectangleMano2);
-        groupPerson.getChildren().add(polygonCuello);
-        groupPerson.getChildren().add(circleCabeza);
-        groupPerson.getChildren().add(polygonCuerno1);
-        groupPerson.getChildren().add(polygonCuerno2);
-        groupPerson.getChildren().add(polygonOjo);
-        groupPerson.getChildren().add(zonaContacto1);
+        /*personaje.getChildren().add(rectangleCuerpoInferior);
+        personaje.getChildren().add(rectangleCuerpoSuperior);
+        personaje.getChildren().add(rectangleMano1);
+        personaje.getChildren().add(rectangleMano2);
+        personaje.getChildren().add(polygonCuello);
+        personaje.getChildren().add(circleCabeza);
+        personaje.getChildren().add(polygonCuerno1);
+        personaje.getChildren().add(polygonCuerno2);
+        personaje.getChildren().add(polygonOjo);
+        personaje.getChildren().add(zonaContacto1);
 
-        groupPerson.setLayoutX(50);
-        groupPerson.setLayoutY(0);
-        groupPerson.setScaleX(0.75);
-        groupPerson.setScaleY(0.75);
+        personaje.setLayoutX(50);
+        personaje.setLayoutY(0);
+        personaje.setScaleX(0.75);
+        personaje.setScaleY(0.75);*/
 
         // Añadir los objetos a la escena
         Scene scene = new Scene(root, SCENE_TAM_X, SCENE_TAM_Y, Color.LIGHTSLATEGREY);
         root.getChildren().add(imgView);
-        root.getChildren().add(groupPerson);
+        root.getChildren().add(personaje);
         /*root.getChildren().add(rectangleObstaculo1);
         root.getChildren().add(rectangleObstaculo2);
         root.getChildren().add(rectangleObstaculo3);
@@ -214,12 +213,12 @@ public class App extends Application {
                     rectPala.setX(stickPosX);
                     
                     //Movimiento del jefe
-                    groupPerson.setLayoutX(groupPerson.getLayoutX()+ velocidadJefe);
-                    if (groupPerson.getLayoutX() > (SCENE_TAM_X -70)) {
-                        velocidadJefe= -velocidadJefe;
+                    personaje.setLayoutX(personaje.getLayoutX()+ personaje.velocidadJefe);
+                    if (personaje.getLayoutX() > (SCENE_TAM_X -70)) {
+                        personaje.velocidadJefe= -personaje.velocidadJefe;
                     }
-                    if (groupPerson.getLayoutX() < 50 ) {
-                        velocidadJefe= -velocidadJefe;
+                    if (personaje.getLayoutX() < 50 ) {
+                        personaje.velocidadJefe= -personaje.velocidadJefe;
                     }
                     if (stickPosX < 0) {
                         stickPosX = 0;
@@ -239,7 +238,7 @@ public class App extends Application {
                         bloques.ballCurrentSpeedY = 0;
                         bloquesView.ballCenterY = 400;
                         bloquesView.ballCenterX = 400;
-                        bloquesView.vida = 0;
+                        bloques.vida = 0;
                         if(bloques.score > highScore){
                             highScore= bloques.score;
                             textHighScore.setText(String.valueOf(highScore));
@@ -314,19 +313,19 @@ public class App extends Application {
                         bloques.ballCurrentSpeedY = -bloques.ballCurrentSpeedY;
                         /*ballCenterY = (ballCenterY + (ballCurrentSpeedY*2));
                         circleBall.setCenterY(ballCenterY);*/
-                        if (groupPerson.getLayoutX()>= 540){
-                            groupPerson.setLayoutX(groupPerson.getLayoutX() -200);
-                            velocidadJefe = -velocidadJefe;
-                        } else if (groupPerson.getLayoutY() <= 260){
-                            groupPerson.setLayoutX(groupPerson.getLayoutX() +200);
-                            velocidadJefe = -velocidadJefe;
+                        if (personaje.getLayoutX()>= 540){
+                            personaje.setLayoutX(personaje.getLayoutX() -200);
+                            personaje.velocidadJefe = -personaje.velocidadJefe;
+                        } else if (personaje.getLayoutY() <= 260){
+                            personaje.setLayoutX(personaje.getLayoutX() +200);
+                            personaje.velocidadJefe = -personaje.velocidadJefe;
                         }
                         bloques.score += 50;
                         textScore.setText(String.valueOf(bloques.score));
-                        bloquesView.vidaJefe -= 1;
-                        if (bloquesView.vidaJefe == 0){
+                        bloques.vidaJefe -= 1;
+                        if (bloques.vidaJefe == 0){
                           winGame(); 
-                          bloquesView.vida = 0;
+                          bloques.vida = 0;
                         }
                     }
                     bloquesView.colisionObjeto();
@@ -347,8 +346,11 @@ public class App extends Application {
                     stickCurrentSpeed = 12;
                     break;
                 case ENTER:
-                    if (bloquesView.vida == 0) {
-                        resetGame();
+                    if (bloques.vida == 0) {
+                        bloques.resetGame();
+                        bloquesView.resetGame();
+                        personaje.resetGame();
+                        root.getChildren().remove(imagenGameOverView);
                     }
             }
         });
@@ -399,20 +401,19 @@ public class App extends Application {
     }
 
     //Reiniciar el juego tras acabar partida o perder
-    private void resetGame() {
+    /*private void resetGame() {
         bloques.ballCurrentSpeedX = 3;
         bloques.ballCurrentSpeedY = 3;
         bloquesView.vida = 1;
         bloquesView.vidaJefe = 3;
-        groupPerson.setLayoutX(50);
-        groupPerson.setLayoutY(0);
-        root.getChildren().remove(imagenGameOverView); 
-    }
+        personaje.setLayoutX(50);
+        personaje.setLayoutY(0); 
+    }*/
     
     //Derrotar al jefe
     private void winGame() {
-        groupPerson.setLayoutX(-1200);
-        groupPerson.setLayoutY(-1200);
+        personaje.setLayoutX(-1200);
+        personaje.setLayoutY(-1200);
         bloques.ballCurrentSpeedX = 0;
         bloques.ballCurrentSpeedY = 0;
         bloquesView.ballCenterY = 400;

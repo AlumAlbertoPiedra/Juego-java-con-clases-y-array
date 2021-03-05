@@ -14,8 +14,7 @@ public class BloquesView extends GridPane {
         Circle circleBall = new Circle(ballCenterX, ballCenterY, 8, Color.LIGHTGRAY);
         Rectangle [] [] rect;
         Bloques bloques;
-        int vida = 1;
-        int vidaJefe = 3;
+        
         
         
     
@@ -32,28 +31,32 @@ public class BloquesView extends GridPane {
         for(int y=0; y<bloques.filas; y++) {
             for(int x=0; x<bloques.columnas; x++) {
                 char caracter= bloques.getchar(x, y);
+                rect [x] [y].setWidth(bloques.ANCHOBLOQUE);
+                rect [x] [y].setHeight(bloques.ALTOBLOQUE);
+                this.add(rect [x] [y], x, y);
                 switch (caracter) {
                     case '+':
-                        rect [x] [y].setWidth(bloques.ANCHOBLOQUE);
-                        rect [x] [y].setHeight(bloques.ALTOBLOQUE);
                         rect [x] [y].setFill(Color.BLUE);
-                        this.add(rect [x] [y], x, y);
                         break;
                     case '-':
-                        rect [x] [y].setWidth(bloques.ANCHOBLOQUE);
-                        rect [x] [y].setHeight(bloques.ALTOBLOQUE);
                         rect [x] [y].setFill(Color.GREEN);
-                        this.add(rect [x] [y], x, y);
                         break;
                     case '*':
-                        rect [x] [y].setWidth(bloques.ANCHOBLOQUE);
-                        rect [x] [y].setHeight(bloques.ALTOBLOQUE);
                         rect [x] [y].setFill(Color.YELLOW);
-                        this.add(rect [x] [y], x, y);
                         break;
                     default:
                         break;
                 }  
+            }
+        }
+        this.inicializar();
+        
+        
+    }
+    public void inicializar(){
+        for(int y=0; y<bloques.filas; y++) {
+            for(int x=0; x<bloques.columnas; x++) {
+                rect [x] [y].setTranslateX(0);
             }
         }
     }
@@ -71,15 +74,10 @@ public class BloquesView extends GridPane {
                 }    
             }
         }      
-    }
+}
     public void resetGame() {
-        bloques.ballCurrentSpeedX = 3;
-        bloques.ballCurrentSpeedY = 3;
-        vida = 1;
-        vidaJefe = 3;
-        /*groupPerson.setLayoutX(50);
-        groupPerson.setLayoutY(0);
-        root.getChildren().remove(imagenGameOverView); */
-        
+        this.getChildren().removeAll();
+        this.inicializar();
+        bloques.mostrarPorConsola();
     }
 }
