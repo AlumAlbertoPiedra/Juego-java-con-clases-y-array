@@ -13,14 +13,17 @@ public final class Bloques{
     int i =3;
     int p =3;
     int puntuacion = 0;
-    int ballCurrentSpeedX = 3;
-    int ballCurrentSpeedY = 3;
-    int tamañoPala =80;
     int score = 0;
     final int ANCHOBLOQUE = 40;
     final int ALTOBLOQUE = 40;
     int vida = 1;
     int vidaJefe = 3;
+    int SCENE_TAM_X = 800;
+    int SCENE_TAM_Y = 600;
+    PalaView palaView;
+    BolaView bolaView;
+
+    
         
     
     public Bloques(int filas){
@@ -30,6 +33,8 @@ public final class Bloques{
         int especialVelY;
         int especialPalaX;
         int especialPalaY;
+        
+        
         
         pos = new char [columnas] [filas];
         for(int c=0; c<columnas; c++){
@@ -48,17 +53,16 @@ public final class Bloques{
         this.mostrarPorConsola();  
     }
     
-    public char eliminarBloque(int posX, int posY){
+    public char eliminarBloque(int posX, int posY, BolaView bolaView){
         char caracter= getchar(posX, posY);
         if (caracter == '+'){
-            ballCurrentSpeedX = 11;
-            ballCurrentSpeedY = 11;
+            bolaView.ballCurrentSpeedY = 12;
         } else if (caracter == '-') {
-            tamañoPala = 50;
+            palaView.tamañoPala =palaView.tamañoPala/(4/3);
         }
         char bloqueEliminado = ' ';
         pos [posX] [posY] = bloqueEliminado;
-        this.mostrarPorConsola(); 
+        //this.mostrarPorConsola(); 
         return caracter;
  
     }
@@ -97,8 +101,8 @@ public final class Bloques{
     }
 
     public void mostrarPorConsola() {
-        for(int x=0; x<columnas; x++){
-            for (int y=0; y<filas; y++){
+        for (int y=0; y<filas; y++){
+            for(int x=0; x<columnas; x++){
                 System.out.print(pos[x][y] + "");
             }
             System.out.println();
@@ -108,9 +112,8 @@ public final class Bloques{
         System.out.println(puntuacion);
     }
     public void resetGame() {
-        ballCurrentSpeedX = 3;
-        ballCurrentSpeedY = 3;
         vida = 1;
         vidaJefe = 3;
+        palaView.tamañoPala= 80;
     }
 }

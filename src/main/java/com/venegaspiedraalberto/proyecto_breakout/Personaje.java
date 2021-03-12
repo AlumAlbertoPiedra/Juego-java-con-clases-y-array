@@ -11,6 +11,7 @@ public class Personaje extends Group {
 
     Rectangle zonaContacto1 = new Rectangle(-20, 0, 90, 120);
     int velocidadJefe = 5;
+    BolaView bolaView;
 
     public Personaje() {
 
@@ -62,13 +63,12 @@ public class Personaje extends Group {
         this.setScaleY(0.75);
     }
 
-    public void colisionPersonaje(Circle circleBall, Bloques bloques) {
+    public void colisionPersonaje(Circle circleBall, Bloques bloques, BolaView bolaView) {
         Shape shapeColision = Shape.intersect(circleBall, zonaContacto1);
         boolean colisionVaciaPersonaje = shapeColision.getBoundsInLocal().isEmpty();
         if (colisionVaciaPersonaje == false) {
-            bloques.ballCurrentSpeedY = -bloques.ballCurrentSpeedY;
-            /*ballCenterY = (ballCenterY + (ballCurrentSpeedY*2));
-                        circleBall.setCenterY(ballCenterY);*/
+            bolaView.ballCurrentSpeedY = -bolaView.ballCurrentSpeedY;
+            System.out.println("Prueba");
             if (this.getLayoutX() >= 540) {
                 this.setLayoutX(this.getLayoutX() - 200);
                 velocidadJefe = -velocidadJefe;
