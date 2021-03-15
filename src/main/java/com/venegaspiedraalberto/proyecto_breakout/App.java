@@ -77,6 +77,8 @@ public class App extends Application {
         
         root.setCenter(bloquesView);
         
+        
+        
         System.out.println();
         System.out.println("");
         System.out.println("");
@@ -88,7 +90,8 @@ public class App extends Application {
         paneScores.setTranslateY(20);
         paneScores.setMinWidth(bloques.SCENE_TAM_X);
         paneScores.setAlignment(Pos.CENTER);
-        paneScores.setSpacing(100);
+        paneScores.setTranslateX(400);
+        paneScores.setSpacing(200);
         root.getChildren().add(paneScores);
         
         HBox paneCurrentScore = new HBox();
@@ -99,7 +102,7 @@ public class App extends Application {
         paneHighScore.setSpacing(10);
         paneScores.getChildren().add(paneHighScore);
         
-        Text textTitleScore = new Text("Puntuación");
+        Text textTitleScore = new Text("Puntuación:");
         textTitleScore.setFont(Font.font(TEXT_SIZE));
         textTitleScore.setFill(Color.BURLYWOOD);
         
@@ -136,18 +139,18 @@ public class App extends Application {
                     
                     personaje.colisionPersonaje(bolaView.circleBall, bloques, bolaView);
                     palaView.rectPala.setWidth(palaView.tamañoPala);
-                    
-                    
+                                                           
                     //Movimiento de la pelota
                     bolaView.circleBall.setCenterY(bolaView.ballCenterY);
                     bolaView.ballCenterY += bolaView.ballCurrentSpeedY;
                     bolaView.circleBall.setCenterX(bolaView.ballCenterX);
                     bolaView.ballCenterX += bolaView.ballCurrentSpeedX;
+                    textScore.setText(String.valueOf(bloques.score));
                     
                     //Movimiento de la pala
                     stickPosX += stickCurrentSpeed;
                     palaView.rectPala.setX(stickPosX);
-                    System.out.println(stickPosX);
+                    //System.out.println(palaView.tamañoPala);
                     
                     //Movimiento del jefe
                     personaje.setLayoutX(personaje.getLayoutX()+ personaje.velocidadJefe);
@@ -219,7 +222,7 @@ public class App extends Application {
                           bloques.vida = 0;
                         }
                     }*/
-                    bloquesView.colisionObjeto(bolaView);
+                    bloquesView.colisionObjeto(bolaView, palaView);
                    
                     calculateBallSpeed(getStickCollisionZone(bolaView.circleBall, palaView.rectPala));
                 })
@@ -232,21 +235,23 @@ public class App extends Application {
             switch (event.getCode()) {
                 case LEFT:
                     stickCurrentSpeed = -12;
-                    System.out.println("izquierda");
                     break;
                 case RIGHT:
                     stickCurrentSpeed = 12;
                     break;
                 case ENTER:
                     if (bloques.vida == 0) {
-                        bloques = new Bloques(5);
                         bloquesView.resetGame();
-                        bloquesView.actualizarBloque();
-                        personaje.resetGame();
-                        root.getChildren().remove(imagenGameOverView);
-                        bloques.resetGame();
+                        bloques = new Bloques(5);
+                        bloquesView.actualizarBloque(bloques);
+                        personaje.resetGame(); 
+                        //bloques.resetGame();
                         bolaView.ballCurrentSpeedX = -5;
                         bolaView.ballCurrentSpeedY = -5;
+                        palaView.tamañoPala = 80;
+                        bloques.vida = 1;
+                        bloques.vidaJefe = 3;
+                        root.getChildren().remove(imagenGameOverView);
                     }
             }
         });
@@ -326,15 +331,15 @@ public class App extends Application {
         personaje.setLayoutY(0); 
     }*/
     
-    //Derrotar al jefe
-    private void winGame() {
+    //Eliminas todos los bloques
+    /*private void winGame() {
         personaje.setLayoutX(-1200);
         personaje.setLayoutY(-1200);
         bolaView.ballCurrentSpeedX = 0;
         bolaView.ballCurrentSpeedY = 0;
         bolaView.ballCenterY = 400;
         bolaView.ballCenterX = 400;
-    }
+    }*/
 
     public static void main(String[] args) {
         launch();

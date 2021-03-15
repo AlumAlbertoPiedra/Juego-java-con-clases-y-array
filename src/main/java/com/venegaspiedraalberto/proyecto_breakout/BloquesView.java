@@ -11,9 +11,10 @@ public class BloquesView extends GridPane {
         Rectangle [] [] rect;
         Bloques bloques;
         BolaView bolaView;
+        PalaView palaView;
+           
         
-        
-        
+                       
     
     public BloquesView(Bloques bloques) { 
         this.bloques = bloques;
@@ -26,7 +27,7 @@ public class BloquesView extends GridPane {
             }
         }
         this.setStyle("-fx-padding: 140 0 0 0;-fx-grid-lines-visible: true");
-        this.actualizarBloque();
+        this.actualizarBloque(bloques);
         
         //this.inicializar();
         
@@ -39,7 +40,8 @@ public class BloquesView extends GridPane {
             }
         }
     }
-    public void actualizarBloque(){
+    public void actualizarBloque(Bloques bloques){
+        this.bloques=bloques;
     for(int y=0; y<bloques.filas; y++) {
             for(int x=0; x<bloques.columnas; x++) {
                 char caracter= bloques.getchar(x, y);
@@ -48,9 +50,12 @@ public class BloquesView extends GridPane {
                 switch (caracter) {
                     case '+':
                         rect [x] [y].setFill(Color.BLUE);
+                        System.out.println(x);
+                        System.out.println(y);
                         break;
                     case '-':
                         rect [x] [y].setFill(Color.GREEN);
+                        System.out.println("A");
                         break;
                     case '*':
                         rect [x] [y].setFill(Color.YELLOW);
@@ -61,7 +66,7 @@ public class BloquesView extends GridPane {
             }
         }
     }
-    public void colisionObjeto(BolaView bolaView){
+    public void colisionObjeto(BolaView bolaView, PalaView palaView){
         for(int x=0; x<bloques.columnas; x++) {
             for(int y=0; y<bloques.filas; y++) {
                 Shape shapeColision = Shape.intersect(bolaView.circleBall, rect [x] [y]);
@@ -70,15 +75,27 @@ public class BloquesView extends GridPane {
                     bolaView.ballCurrentSpeedX = -bolaView.ballCurrentSpeedX;
                     bolaView.ballCurrentSpeedY = -bolaView.ballCurrentSpeedY;
                     //System.out.println("Hola");
-                    bloques.eliminarBloque(x, y, bolaView);
+                    bloques.eliminarBloque(x, y, bolaView, palaView);
                     rect[x] [y].setTranslateX(2000);
+                    bloques.score +=10;
+                    
+                    
+                    // Guardar Codigo por si acaso 
+                     /*if (bolaView.ballCurrentSpeedX>0 && bolaView.ballCurrentSpeedY>0 ){
+                        bolaView.ballCurrentSpeedX = -bolaView.ballCurrentSpeedX;
+                    } else if (bolaView.ballCurrentSpeedX >0 && bolaView.ballCurrentSpeedY<0 ){
+                        bolaView.ballCurrentSpeedY = -bolaView.ballCurrentSpeedY;
+                    } else if (bolaView.ballCurrentSpeedX <0 && bolaView.ballCurrentSpeedY>0 ){
+                        bolaView.ballCurrentSpeedY = -bolaView.ballCurrentSpeedY;
+                    } else if (bolaView.ballCurrentSpeedX <0 && bolaView.ballCurrentSpeedY<0 ){
+                        bolaView.ballCurrentSpeedX = -bolaView.ballCurrentSpeedX;*/
                 }    
             }
-        }      
-}
+        } 
+    }
     public void resetGame() {
         
-        this.getChildren().removeAll();
+        //this.getChildren().removeAll();
         this.inicializar();
         //bloques.mostrarPorConsola();
     }

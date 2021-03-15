@@ -22,6 +22,9 @@ public final class Bloques{
     int SCENE_TAM_Y = 600;
     PalaView palaView;
     BolaView bolaView;
+    Bloques bloques;
+    Personaje personaje;
+    
 
     
         
@@ -46,24 +49,28 @@ public final class Bloques{
         especialVelY =getNumAleatorio(0,4);
         this.bloqueEspecialVelocidad(especialVelX,especialVelY);
         
-        especialPalaX =getNumAleatorio(0,19);
-        especialPalaY =getNumAleatorio(0,4);
+        especialPalaX = getNumAleatorio(0,19);
+        especialPalaY = getNumAleatorio(0,4);
         this.bloqueEspecialPala(especialPalaX,especialPalaY);
         
         this.mostrarPorConsola();  
     }
     
-    public char eliminarBloque(int posX, int posY, BolaView bolaView){
+    public char eliminarBloque(int posX, int posY, BolaView bolaView, PalaView palaView ){
         char caracter= getchar(posX, posY);
         if (caracter == '+'){
-            bolaView.ballCurrentSpeedY = 12;
+            bolaView.ballCurrentSpeedY = 10;
         } else if (caracter == '-') {
-            palaView.tamañoPala =palaView.tamañoPala/(4/3);
+            palaView.tamañoPala =palaView.tamañoPala/2;
         }
         char bloqueEliminado = ' ';
         pos [posX] [posY] = bloqueEliminado;
         //this.mostrarPorConsola(); 
+        this.comprobarFilaVacia(filas);
+        this.comprobarVictoria();
         return caracter;
+        
+        
  
     }
     
@@ -82,11 +89,11 @@ public final class Bloques{
     }
     
     public boolean comprobarFilaVacia(int fila){
-        for (int x=0; x<20; x++){
+        for (int x=0; x<columnas; x++){
             char caracter = getchar(fila,x);
             if (caracter != ' '){
-                System.out.println("La fila no esta vacia");
-                System.out.println(caracter);
+                //System.out.println("La fila no esta vacia");
+                //System.out.println(caracter);
                 return false;
             }            
         }
@@ -116,4 +123,28 @@ public final class Bloques{
         vidaJefe = 3;
         palaView.tamañoPala= 80;
     }
+    public boolean comprobarVictoria(){
+        for (int y=0; y<filas; y++){
+            for (int x=0; x<columnas;x++){
+                char caracter = getchar(y,x);
+                    if (caracter != ' '){
+                        //System.out.println("La pantalla no esta vacia");
+                        //System.out.println(caracter);
+                        return false;
+                    }                 
+            }
+        }
+        System.out.println("La pantalla esta vacia");
+        score +=500;
+        this.winGame();
+        return true;
+    }
+    public void winGame(){
+        personaje.setLayoutX(-1200);
+        personaje.setLayoutY(-1200);
+        bolaView.ballCurrentSpeedX = 0;
+        bolaView.ballCurrentSpeedY = 0;
+        bolaView.ballCenterY = 400;
+        bolaView.ballCenterX = 400;
+    }        
 }
