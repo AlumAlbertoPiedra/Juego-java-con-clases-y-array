@@ -61,12 +61,12 @@ public final class Bloques{
         if (caracter == '+'){
             bolaView.ballCurrentSpeedY = 10;
         } else if (caracter == '-') {
-            palaView.tamañoPala =palaView.tamañoPala/2;
+            palaView.tamañoPala =(palaView.tamañoPala/4) * 3;
         }
         char bloqueEliminado = ' ';
         pos [posX] [posY] = bloqueEliminado;
         //this.mostrarPorConsola(); 
-        this.comprobarFilaVacia(filas);
+        this.comprobarFilaVacia(posY);
         this.comprobarVictoria();
         return caracter;
         
@@ -90,7 +90,7 @@ public final class Bloques{
     
     public boolean comprobarFilaVacia(int fila){
         for (int x=0; x<columnas; x++){
-            char caracter = getchar(fila,x);
+            char caracter = getchar(x,fila);
             if (caracter != ' '){
                 //System.out.println("La fila no esta vacia");
                 //System.out.println(caracter);
@@ -126,7 +126,7 @@ public final class Bloques{
     public boolean comprobarVictoria(){
         for (int y=0; y<filas; y++){
             for (int x=0; x<columnas;x++){
-                char caracter = getchar(y,x);
+                char caracter = getchar(x,y);
                     if (caracter != ' '){
                         //System.out.println("La pantalla no esta vacia");
                         //System.out.println(caracter);

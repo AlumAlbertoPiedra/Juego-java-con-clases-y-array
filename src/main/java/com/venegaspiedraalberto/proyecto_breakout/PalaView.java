@@ -6,7 +6,7 @@ import javafx.scene.shape.Rectangle;
 
 public class PalaView {
     int ALTURA_PALA = 10;
-    int tamañoPala =80;
+    double tamañoPala =80;
     Bloques bloques;
     Rectangle rectPala;
        

@@ -4,10 +4,10 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
 public class BolaView {
-    int ballCenterY = 450;
-    int ballCenterX = 500;
-    int ballCurrentSpeedX = -5;
-    int ballCurrentSpeedY = -5;
+    double ballCenterY = 450;
+    double ballCenterX = 500;
+    double ballCurrentSpeedX = -5;
+    double ballCurrentSpeedY = -5;
     Circle circleBall;
     
     public BolaView(){

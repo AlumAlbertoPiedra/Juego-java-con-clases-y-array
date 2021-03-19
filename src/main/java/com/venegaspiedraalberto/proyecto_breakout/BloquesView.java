@@ -47,7 +47,7 @@ public class BloquesView extends GridPane {
                 rect [x] [y].setTranslateX(0);
             }
         }
-    }
+    }// y=0; y<bloques.filas; y++
     public void actualizarBloque(Bloques bloques){
         this.bloques=bloques;
     for(int y=0; y<bloques.filas; y++) {

@@ -38,7 +38,7 @@ public class App extends Application {
     
  
     int stickCurrentSpeed = 0;
-    int stickPosX = (bloques.SCENE_TAM_X - palaView.tamañoPala) / 2;
+    int stickPosX = (int)(bloques.SCENE_TAM_X - palaView.tamañoPala) / 2;
     
     int highScore;
     int TEXT_SIZE = 24;
@@ -164,7 +164,7 @@ public class App extends Application {
                         stickPosX = 0;
                     } else {
                         if (stickPosX > (bloques.SCENE_TAM_X - palaView.tamañoPala)) {
-                            stickPosX = (bloques.SCENE_TAM_X - palaView.tamañoPala);
+                            stickPosX = (int)(bloques.SCENE_TAM_X - palaView.tamañoPala);
                         }
                     }
                     if (bolaView.ballCenterX >= bloques.SCENE_TAM_X-10) {
